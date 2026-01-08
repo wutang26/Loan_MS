@@ -59,8 +59,6 @@
     <div class="container copyright text-center mt-4">
       <p>© <span>Copyright</span> <strong class="px-1 sitename">TukaShira</strong> <span>All Rights Reserved</span></p>
       <div class="credits">
-       
-        Designed by <a href="#">BootstrapMade</a> Distributed by <a href=“#">ThemeWagon
       </div>
     </div>
 
