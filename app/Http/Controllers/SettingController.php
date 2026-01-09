@@ -41,8 +41,7 @@ class SettingController extends Controller
 
     public function createRegion()
     {
-
-        $regions = Region::all();
+        $regions = Region::paginate(10);
 
         return view('settings.regions.create_region', compact('regions'));
     }

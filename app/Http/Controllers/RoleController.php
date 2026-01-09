@@ -114,8 +114,8 @@ public function updateRole(Request $request, Role $role)
         'lable' => 'required|string|max:255',
         'description' => 'nullable|string',
         'is_active' => 'required|boolean',
-        'permissions' => 'array',                     // ✅ REQUIRED
-        'permissions.*' => 'exists:permissions,id',   // ✅ REQUIRED
+        'permissions' => 'array',                     //
+        'permissions.*' => 'exists:permissions,id',   // 
     ]);
 
     $role->update([

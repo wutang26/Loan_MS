@@ -19,10 +19,10 @@ class SuperAdminSeeder extends Seeder
     {
         //
          // Check if user already exists
-        if (!User::where('email', 'superadmin@example.com')->exists()) {
+        if (!User::where('email', 'superadmin@outlook.com')->exists()) {
             $user = User::create([
                 'name' => 'Super Admin',
-                'email' => 'superadmin@example.com',
+                'email' => 'superadmin@outlook.com',
                 'password' => Hash::make('password123'), // use Hash facade
             ]);
 

@@ -9,3 +9,9 @@ A web-based system for managing loans, repayments, and user roles.
 ## Packages
 - Laravel Breeze (Authentication)
 - Spatie Roles & Permissions
+
+## Packages
+- Vs Code
+- pgAdmin4
+- xampp
+-composer

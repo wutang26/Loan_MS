@@ -15,21 +15,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-    //     $this->call([
-    //     SuperAdminSeeder::class,
-    // ]);
      
-    User::factory()->create([
-    'name' => 'Super Admin',
-    'email' => 'superadmin@example.com',
-    'password' => Hash::make('password123'),
-]);
+       $this->call([
+            RolePermissionSeeder::class,
+            SuperAdminSeeder::class,
+        ]);
 
-    }
+//     User::factory()->create([
+//     'name' => 'Super Admin',
+//     'email' => 'superadmin@outlook.com',
+//     'password' => Hash::make('password123'),
+// ]);
+
+//  $this->command->info('Super Adimin seeded successfully.');
+//     }
+}
 }

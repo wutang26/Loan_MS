@@ -32,7 +32,7 @@ class RolePermissionSeeder extends Seeder
         // 2️⃣ Define Roles and Assign Permissions
         // -------------------------
         $rolesPermissions = [
-            'superadmin'  => Permission::all()->pluck('name')->toArray(), // all permissions
+            'super-admin'  => Permission::all()->pluck('name')->toArray(), // all permissions
             'admin'       => ['view dashboard', 'manage users', 'manage roles', 'view reports'],
             'accountant'  => ['view dashboard', 'view reports', 'view applications', 'print reports'],
             'mwenyekiti'  => ['view dashboard', 'view reports', 'approve loans'],
