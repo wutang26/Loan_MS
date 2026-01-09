@@ -31,7 +31,7 @@
                         <!-- Date Joined (RIGHT) -->
                         <div class="flex flex-col">
                             <label class="form-label">Date Joined</label>
-                            <input type="date" name="date_joined" class="form-input max-w-md" required>
+                            <input type="date" name="date_joined" class="form-input max-w-md"  max="{{ date('Y-m-d') }}" required>
                         </div>
                     </div>
 

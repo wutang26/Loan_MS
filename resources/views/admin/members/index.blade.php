@@ -29,7 +29,6 @@
         </div>
     @endif
 
-    <br>
     <div class="grid grid-cols-1 md:grid-cols-1 gap-6>
 
         <div g-white p-4 rounded shadow overflow-x-auto">
