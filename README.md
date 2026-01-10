@@ -15,3 +15,10 @@ A web-based system for managing loans, repayments, and user roles.
 - pgAdmin4
 - xampp
 -composer
+
+## Contacts
+- Brand: Nac Technologies
+- Dev: Nimloadi Amos Chelesi
+- Email: elonnim@outlook.com
+- Phone: 0746856656
+- We welcome any inquiries.
