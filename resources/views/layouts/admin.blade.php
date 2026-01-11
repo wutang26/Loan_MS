@@ -63,9 +63,10 @@
                 </a>
 
                 <!-- REPORTS DROPDOWN -->
-                <div x-data="{ open: false }">
-                    <button @click="open = !open"
-                        class="w-full flex items-center justify-between gap-3 px-4 py-2 hover:bg-gray-700">
+                <!-- REPORTS DROPDOWN -->
+                <div class="dropdown">
+                    <button
+                        class="dropdown-toggle w-full flex items-center justify-between gap-3 px-4 py-2 hover:bg-gray-700">
                         <div class="flex items-center gap-3">
                             <i class="bi bi-bar-chart"></i>
                             Reports
@@ -73,51 +74,46 @@
                         <i class="bi bi-chevron-down text-xs"></i>
                     </button>
 
-                    <div x-show="open" x-transition class="ml-8 mt-1 space-y-1 text-sm">
-                       
-                       @can('manage pdf')
-                        <a href="{{ route('pdf.preview') }}"
-                            class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
-                            <i class="bi bi-people"></i>
-                            Members Preview Report
-                        </a>
+                    <div class="dropdown-menu hidden ml-8 mt-1 space-y-1 text-sm">
+                        @can('manage pdf')
+                            <a href="{{ route('pdf.preview') }}"
+                                class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
+                                <i class="bi bi-people"></i>
+                                Members Preview Report
+                            </a>
                         @endcan
-                         
-                    @can('manage pdf')
-                        <a href="{{ route('pdf.download') }}"
-                            class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
-                            <i class="bi bi-cash-stack"></i>
-                           Print Loans Report
-                        </a>
-                    @endcan
 
-                    @can('manage pdf')
-                        <a href="#"
-                            class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
-                            <i class="bi bi-credit-card"></i>
-                            Repayments Report
-                        </a>
-                     @endcan
+                        @can('manage pdf')
+                            <a href="{{ route('pdf.download') }}"
+                                class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
+                                <i class="bi bi-cash-stack"></i>
+                                Print Loans Report
+                            </a>
+                        @endcan
 
-                    @can('manage pdf')
-                        <a href="#"
-                            class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
-                            <i class="bi bi-arrow-left-right"></i>
-                            Disbursement Report
-                        </a>
+                        @can('manage pdf')
+                            <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700"> <i
+                                    class="bi bi-credit-card"></i> Repayments Report </a>
+                            @endcan @can('manage pdf')
+                            <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700"> <i
+                                    class="bi bi-arrow-left-right">
+                                </i> Disbursement Report </a>
                         @endcan
 
                     </div>
                 </div>
 
 
+
+
                 <hr class="my-2 border-gray-700">
 
 
                 <!-- SETTINGS DROPDOWN -->
-                <div x-data="{ open: false }">
-                    <button @click="open = !open"
-                        class="w-full flex items-center justify-between gap-3 px-4 py-2 hover:bg-gray-700">
+                <!-- SETTINGS DROPDOWN -->
+                <div class="dropdown">
+                    <button
+                        class="dropdown-toggle w-full flex items-center justify-between gap-3 px-4 py-2 hover:bg-gray-700">
                         <div class="flex items-center gap-3">
                             <i class="bi bi-gear"></i>
                             Settings
@@ -125,8 +121,7 @@
                         <i class="bi bi-chevron-down text-xs"></i>
                     </button>
 
-                    <div x-show="open" class="ml-8 mt-1 space-y-1 text-sm">
-
+                    <div class="dropdown-menu hidden ml-8 mt-1 space-y-1 text-sm">
                         @can('manage users')
                             <a href="{{ route('settings.users.index') }}"
                                 class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
@@ -159,35 +154,25 @@
                             </a>
                         @endcan
 
-                        @can('manage roles')
-                            <a href="{{ route('settings.roles.index') }}"
-                                class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
-                                <i class="bi bi-shield-lock"></i>
-                                Roles
-                            </a>
-                        @endcan
-
                         <a href="{{ route('settings.regions.region') }}"
                             class="block px-4 py-2 hover:bg-gray-700 rounded">
-                            🌍 Regions
+                               <i class="bi bi-globe"></i> Regions
                         </a>
 
                         <a href="{{ route('settings.district') }}" class="block px-4 py-2 hover:bg-gray-700 rounded">
-                            🏙 Districts
+                             <i class="bi bi-geo"></i> Districts
                         </a>
 
                         <a href="{{ route('settings.currency') }}" class="block px-4 py-2 hover:bg-gray-700 rounded">
-                            💱 Currencies
+                             <i class="bi bi-coin"></i> Currencies
                         </a>
-
-
                     </div>
                 </div>
 
 
+
             </nav>
         </aside>
-
 
 
         <!-- MAIN CONTENT -->
@@ -209,59 +194,59 @@
                 </form> --}}
 
                 <div class="relative inline-block text-left">
-    <!-- User Button -->
-    <button type="button" class="flex items-center space-x-2 focus:outline-none" id="user-menu-button">
-        <img class="h-8 w-8 rounded-full" src="{{ Auth::user()->profile_photo_url }}" alt="User Profile">
-        <span class="font-medium text-gray-700">{{ Auth::user()->name }}</span>
-        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M19 9l-7 7-7-7" />
-        </svg>
-    </button>
+                    <!-- User Button -->
+                    <button type="button" class="flex items-center space-x-2 focus:outline-none" id="user-menu-button">
+                        <img class="h-8 w-8 rounded-full" src="{{ Auth::user()->profile_photo_url }}"
+                            alt="User Profile">
+                        <span class="font-medium text-gray-700">{{ Auth::user()->name }}</span>
+                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
 
-    <!-- Dropdown Menu -->
-    <div class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden"
-        id="user-menu-dropdown">
-        <div class="py-1">
-            <!-- Profile -->
-            <a href="{{ route('profile.edit') }}"
-                class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-gray-900">
-                Profile
-            </a>
+                    <!-- Dropdown Menu -->
+                    <div class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden"
+                        id="user-menu-dropdown">
+                        <div class="py-1">
+                            <!-- Profile -->
+                            <a href="{{ route('profile.edit') }}"
+                                class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-gray-900">
+                                Profile
+                            </a>
 
-            <!-- Change Password -->
-            <a href="{{route('password.change')}}"
-                class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-gray-900">
-                Change Password
-            </a>
+                            <!-- Change Password -->
+                            <a href="{{ route('password.change') }}"
+                                class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-gray-900">
+                                Change Password
+                            </a>
 
 
-            <!-- Logout -->
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit"
-                    class="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100 hover:text-red-700">
-                    Logout
-                </button>
-            </form>
-        </div>
-    </div>
-</div>
+                            <!-- Logout -->
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit"
+                                    class="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100 hover:text-red-700">
+                                    Logout
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
 
-        <script>
-            const userButton = document.getElementById('user-menu-button');
-            const dropdown = document.getElementById('user-menu-dropdown');
+                <script>
+                    const userButton = document.getElementById('user-menu-button');
+                    const dropdown = document.getElementById('user-menu-dropdown');
 
-            userButton.addEventListener('click', () => {
-                dropdown.classList.toggle('hidden');
-            });
+                    userButton.addEventListener('click', () => {
+                        dropdown.classList.toggle('hidden');
+                    });
 
-            document.addEventListener('click', (e) => {
-                if (!userButton.contains(e.target) && !dropdown.contains(e.target)) {
-                    dropdown.classList.add('hidden');
-                }
-            });
-        </script>
+                    document.addEventListener('click', (e) => {
+                        if (!userButton.contains(e.target) && !dropdown.contains(e.target)) {
+                            dropdown.classList.add('hidden');
+                        }
+                    });
+                </script>
 
             </header>
 
@@ -274,5 +259,18 @@
     </div>
 
 </body>
+        {{-- 
+        Handle the dropdown menus --}}
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                document.querySelectorAll('.dropdown-toggle').forEach(button => {
+                    button.addEventListener('click', () => {
+                        const menu = button.nextElementSibling;
+                        menu.classList.toggle('hidden');
+                    });
+                });
+            });
+        </script>
+
 
 </html>

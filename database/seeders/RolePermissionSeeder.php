@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -11,7 +12,7 @@ class RolePermissionSeeder extends Seeder
     public function run()
     {
         // -------------------------
-        // 1️⃣ Define Permissions
+        // Define Permissions
         // -------------------------
         $permissions = [
             'view dashboard',
@@ -29,7 +30,7 @@ class RolePermissionSeeder extends Seeder
         }
 
         // -------------------------
-        // 2️⃣ Define Roles and Assign Permissions
+        // Define Roles and Assign Permissions
         // -------------------------
         $rolesPermissions = [
             'super-admin'  => Permission::all()->pluck('name')->toArray(), // all permissions
@@ -45,12 +46,12 @@ class RolePermissionSeeder extends Seeder
         }
 
         // -------------------------
-        // 3️⃣ Optional: Assign Default Roles to Users
+        // Optional: Assign Default Roles to Users
         // -------------------------
         // For example, assign 'superadmin' to the first user
-        $firstUser = \App\Models\User::first();
+        $firstUser = User::first();
         if ($firstUser && !$firstUser->hasAnyRole(array_keys($rolesPermissions))) {
-            $firstUser->assignRole('superadmin');
+            $firstUser->assignRole('super-admin');
         }
     }
 }

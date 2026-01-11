@@ -23,7 +23,7 @@ class SuperAdminSeeder extends Seeder
             $user = User::create([
                 'name' => 'Super Admin',
                 'email' => 'superadmin@outlook.com',
-                'password' => Hash::make('password123'), // use Hash facade
+                'password' => Hash::make('super@123'), // use Hash facade
             ]);
 
             // Assign role if you are using spatie/laravel-permission
