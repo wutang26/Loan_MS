@@ -28,9 +28,16 @@
             @endif
 
             <!-- Page Content -->
-            <main>
-                {{ $members }}
+            {{-- <main>
+                @isset($members)
+                    {{ $members }}
+                @endisset
+            </main> --}}
+
+            <main class="py-8">
+             {{ $slot }} <!-- THIS IS CRITICAL -->
             </main>
+
         </div>
     </body>
 </html>

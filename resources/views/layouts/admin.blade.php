@@ -200,13 +200,69 @@
                 </div>
 
                 <!-- LOGOUT -->
-                <form method="POST" action="{{ route('logout') }}">
+                {{-- <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button class="text-red-600 hover:underline"
                         onclick="event.preventDefault(); this.closest('form').submit();">
                         Logout
                     </button>
-                </form>
+                </form> --}}
+
+                <div class="relative inline-block text-left">
+    <!-- User Button -->
+    <button type="button" class="flex items-center space-x-2 focus:outline-none" id="user-menu-button">
+        <img class="h-8 w-8 rounded-full" src="{{ Auth::user()->profile_photo_url }}" alt="User Profile">
+        <span class="font-medium text-gray-700">{{ Auth::user()->name }}</span>
+        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 9l-7 7-7-7" />
+        </svg>
+    </button>
+
+    <!-- Dropdown Menu -->
+    <div class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden"
+        id="user-menu-dropdown">
+        <div class="py-1">
+            <!-- Profile -->
+            <a href="{{ route('profile.edit') }}"
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-gray-900">
+                Profile
+            </a>
+
+            <!-- Change Password -->
+            <a href="{{route('password.change')}}"
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-gray-900">
+                Change Password
+            </a>
+
+
+            <!-- Logout -->
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit"
+                    class="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100 hover:text-red-700">
+                    Logout
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+        <script>
+            const userButton = document.getElementById('user-menu-button');
+            const dropdown = document.getElementById('user-menu-dropdown');
+
+            userButton.addEventListener('click', () => {
+                dropdown.classList.toggle('hidden');
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!userButton.contains(e.target) && !dropdown.contains(e.target)) {
+                    dropdown.classList.add('hidden');
+                }
+            });
+        </script>
+
             </header>
 
             <!-- PAGE CONTENT -->

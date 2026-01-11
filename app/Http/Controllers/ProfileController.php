@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Member;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -57,4 +58,11 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+     // Show profile page
+    // public function show()
+    // {
+    //     $members = Member::all();
+    //     return view('profile.show', compact('members'));
+    // }
 }

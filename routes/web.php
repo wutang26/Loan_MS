@@ -8,6 +8,8 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 //use App\Http\Controllers\Admin\RolePermissionController;
 use App\Http\Controllers\Admin\AuditLogController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
@@ -59,6 +61,25 @@ Route::get('/pdf/generate', [PdfController::class, 'generatePdf'])
      ->name('pdf.generate');
 
 
+//Change Password Routes
+// Route::middleware(['auth'])->group(function () {
+//     Route::get('/profile', [PasswordController::class, 'edit'])->name('profile.show'); // renamed
+//     Route::get('/password/change', [PasswordController::class, 'edit'])->name('password.change');
+//     Route::patch('/password/change', [PasswordController::class, 'update']);
+// });
+
+
+// Profile page
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+
+    // Show change password form
+    Route::get('/password/change', [PasswordController::class, 'edit'])->name('password.change');
+
+    // Handle password update
+    Route::put('/password/change', [PasswordController::class, 'update'])->name('password.update');
+
+    // Logout (Breeze default)
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
 //Welcome page
 Route::get('/welcome', function () {
