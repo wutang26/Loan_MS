@@ -74,30 +74,38 @@
                     </button>
 
                     <div x-show="open" x-transition class="ml-8 mt-1 space-y-1 text-sm">
-
+                       
+                       @can('manage pdf')
                         <a href="{{ route('pdf.preview') }}"
                             class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
                             <i class="bi bi-people"></i>
                             Members Preview Report
                         </a>
-
+                        @endcan
+                         
+                    @can('manage pdf')
                         <a href="{{ route('pdf.download') }}"
                             class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
                             <i class="bi bi-cash-stack"></i>
                            Print Loans Report
                         </a>
+                    @endcan
 
+                    @can('manage pdf')
                         <a href="#"
                             class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
                             <i class="bi bi-credit-card"></i>
                             Repayments Report
                         </a>
+                     @endcan
 
+                    @can('manage pdf')
                         <a href="#"
                             class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
                             <i class="bi bi-arrow-left-right"></i>
                             Disbursement Report
                         </a>
+                        @endcan
 
                     </div>
                 </div>

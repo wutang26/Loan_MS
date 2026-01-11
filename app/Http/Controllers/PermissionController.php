@@ -71,21 +71,6 @@ public function storePermission(PermissionRequest $request)
         ->with('success', 'Permissions created successfully for the module');
 }
 
-//    public function storePermission(PermissionRequest $request)
-// {
-//     Permission::create([
-//         'module'      => $request->module,
-//         'lable'       => $request->lable,
-//         'name'        => Str::slug($request->lable),
-//         'description' => $request->description,
-//         'is_active'   => $request->is_active,
-//         'guard_name'  => 'web', // REQUIRED
-//     ]);
-//     return redirect()
-//         ->route('settings.permissions.index')
-//         ->with('success', 'Permission created successfully');
-// }
-
 // Edit Permission
 public function editPermission(string $id)
 {
