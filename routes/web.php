@@ -8,6 +8,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 //use App\Http\Controllers\Admin\RolePermissionController;
 use App\Http\Controllers\Admin\AuditLogController;
+use App\Http\Controllers\PdfController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 
@@ -47,12 +48,19 @@ Route::middleware('auth')->group(function () {
 Route::get('/reports', function () {
     return view('reports.index');})->name('reports.index');
 
+//Genenerate Pdf Preview and Download
+Route::get('/pdf/preview', [PdfController::class, 'preview'])
+     ->name('pdf.preview');
 
+Route::get('/pdf/download', [PdfController::class, 'download'])
+     ->name('pdf.download');
+
+Route::get('/pdf/generate', [PdfController::class, 'generatePdf'])
+     ->name('pdf.generate');
 
 
 
 //Welcome page
-
 Route::get('/welcome', function () {
     return view('welcome');
 });

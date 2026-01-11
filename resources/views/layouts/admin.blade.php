@@ -29,13 +29,13 @@
                     Dashboard
                 </a>
 
-        
-                    <a href="{{ route('admin.members.index') }}"
-                        class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
-                        <i class="bi bi-people"></i>
-                        Members
-                    </a>
-             
+
+                <a href="{{ route('admin.members.index') }}"
+                    class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
+                    <i class="bi bi-people"></i>
+                    Members
+                </a>
+
 
                 <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
                     <i class="bi bi-file-earmark-text"></i>
@@ -62,10 +62,46 @@
                     Repayments
                 </a>
 
-                <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
-                    <i class="bi bi-bar-chart"></i>
-                    Reports
-                </a>
+                <!-- REPORTS DROPDOWN -->
+                <div x-data="{ open: false }">
+                    <button @click="open = !open"
+                        class="w-full flex items-center justify-between gap-3 px-4 py-2 hover:bg-gray-700">
+                        <div class="flex items-center gap-3">
+                            <i class="bi bi-bar-chart"></i>
+                            Reports
+                        </div>
+                        <i class="bi bi-chevron-down text-xs"></i>
+                    </button>
+
+                    <div x-show="open" x-transition class="ml-8 mt-1 space-y-1 text-sm">
+
+                        <a href="{{ route('pdf.preview') }}"
+                            class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
+                            <i class="bi bi-people"></i>
+                            Members Preview Report
+                        </a>
+
+                        <a href="{{ route('pdf.download') }}"
+                            class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
+                            <i class="bi bi-cash-stack"></i>
+                           Print Loans Report
+                        </a>
+
+                        <a href="#"
+                            class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
+                            <i class="bi bi-credit-card"></i>
+                            Repayments Report
+                        </a>
+
+                        <a href="#"
+                            class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
+                            <i class="bi bi-arrow-left-right"></i>
+                            Disbursement Report
+                        </a>
+
+                    </div>
+                </div>
+
 
                 <hr class="my-2 border-gray-700">
 
