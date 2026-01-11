@@ -78,21 +78,6 @@ class RoleController extends Controller
 return redirect()->back()->with('error', 'Role(s) do not  created successfully');
 }
 }
-//    public function storeRole(Request $request)
-// {
-
-//     Role::create([
-//         'module'      => $request->module,
-//         'lable'       => $request->lable,
-//         'name'        => Str::slug($request->lable),
-//         'description' => $request->description,
-//         'is_active'   => $request->is_active,
-//         'guard_name'  => 'web', // REQUIRED
-//     ]);
-//     return redirect()
-//         ->route('settings.roles.index')
-//         ->with('success', 'Role created successfully');
-// }
 
 // Edit Permission
 public function editRole(Role $role)
@@ -106,8 +91,6 @@ public function editRole(Role $role)
 
 
 // Update Permission
-
-
 public function updateRole(Request $request, Role $role)
 {
     $validated = $request->validate([
@@ -125,8 +108,8 @@ public function updateRole(Request $request, Role $role)
         'is_active' => $validated['is_active'],
     ]);
 
-      // 🔥 THIS IS IMPORTANT
-    // ✅ SAFE SYNC
+    
+    //  SAFE SYNC
     if ($request->has('permissions')) {
         $role->permissions()->sync($validated['permissions']);
     }
@@ -135,27 +118,6 @@ public function updateRole(Request $request, Role $role)
         ->route('settings.roles.index')
         ->with('success', 'Role updated successfully');
 }
-
-    // $role = Role::findOrFail($role);
-
-    // // Validate all fields
-    // $request->validate([
-    //     'module'      => 'required|string|max:255',
-    //     'lable'       => 'required|string|max:255',
-    //     'description' => 'nullable|string',
-    //     'is_active'   => 'required|boolean',
-    // ]);
-
-    // // Update all fields
-    // $role->update([
-    //     'module'      => $request->module,
-    //     'lable'       => $request->lable,
-    //     'name'        => Str::slug($request->lable), // keep slug updated
-    //     'description' => $request->description,
-    //     'is_active'   => $request->is_active,
-    //     // guard_name remains unchanged
-    // ]);
-
 
 
     /**
