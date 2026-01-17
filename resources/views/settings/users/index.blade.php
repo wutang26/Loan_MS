@@ -45,6 +45,8 @@
     @endrole
   @endauth
 
+          
+
         @php $i = 0; @endphp
 
         <!-- Users Table -->
@@ -55,6 +57,8 @@
                     <th class="border px-3 py-2 text-left">User Name</th>
                     <th class="border px-3 py-2 text-left">Email</th>
                     <th class="border px-3 py-2 text-left">User Type (Role)</th>
+                    <th class="border px-3 py-2">Permissions</th>
+                    <th class="border px-3 py-2">Assign Permissions</th>
                     <th class="border px-3 py-2 text-left">Date Joined</th>
                     <th class="border px-3 py-2 text-left">Status</th>
 
@@ -82,6 +86,20 @@
                         @endforeach
                     </td>
 
+                <td class="border px-3 py-2">
+                    {{ $user->getAllPermissions()->pluck('name')->join(', ') ?: 'None' }}
+                </td>
+                 
+                <td class="border px-3 py-2">
+                         <form method="POST" action="{{ route('users.assign_permissions', $user->id) }}">
+                        @csrf
+                        <button type="submit"
+                                class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">
+                            Assign Default Permissions
+                        </button>
+                    </form>
+                </td>
+
                     <td class="border px-3 py-2">
                         {{ $user->created_at->format('d M Y') }}
                     </td>
@@ -97,7 +115,13 @@
                                     ? 'bg-yellow-100 text-yellow-700'
                                     : 'bg-red-100 text-red-700') }}">
                             {{ ucfirst($user->status) }}
+
                         </span>
+
+
+                      
+                 
+                
                     </td>
 
                     <!-- Actions -->

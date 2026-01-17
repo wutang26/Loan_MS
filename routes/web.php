@@ -15,6 +15,7 @@ use App\Http\Controllers\PdfController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\HighChartController;
+use App\Http\Controllers\UserPermissionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,9 +85,15 @@ Route::get('/pdf/generate', [PdfController::class, 'generatePdf'])
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
 //Welcome page
-Route::get('/welcome', function () {
-    return view('welcome');
-});
+
+
+
+Route::get('/', function () {  return redirect()->route('register'); });
+
+
+// Route::get('/welcome', function () {
+//     return view('welcome');
+// });
 
 
 
@@ -102,7 +109,7 @@ Route::middleware('auth')->group(function () {
 
 
 //Home page 
-Route::get('/', [HomeController::class, 'home'])->name('layout');
+Route::get('/home', [HomeController::class, 'home'])->name('layout');
 
 //About Routes
 Route::get('/about_external', [HomeController::class, 'aboutExternal'])->name('about_external');
@@ -210,7 +217,9 @@ Route::middleware(['auth', 'permission:view reports|apply loan|view loans'])->gr
     Route::post('/loans/store', [LoanApprovalController::class, 'store'])->name('loans.store');
     Route::post('/admin/loans/{loan}/approve', [LoanApprovalController::class,'approve']);
     Route::post('/admin/loans/{loan}/reject', [LoanApprovalController::class,'reject']);
-});
+    Route::post('/users/{user}/assign-permissions', [UserPermissionController::class, 'assignPermissions'])->name('users.assign_permissions');
+
+    });
 
 
 // List audit logs
