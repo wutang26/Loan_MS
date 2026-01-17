@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\LoanRepayment;
 use App\Models\LoanDisbursement;
 use App\Models\Member;
+use Spatie\Permission\Traits\HasRoles;
 
 class Loan extends Model
 {
-    use HasFactory;
+    use HasFactory, HasRoles;
 
     /**
      * Mass assignable attributes

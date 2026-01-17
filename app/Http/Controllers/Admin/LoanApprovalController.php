@@ -6,19 +6,27 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Loan;
 use App\Models\Repayment;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+
 
 class LoanApprovalController extends Controller
 {
     //User will be able to see loans infomations Submitted(Pending) or Rejected or approved
             public function index()
         {
-            //$loans = Loan::where('status','pending')->get();
+
+         if (auth()->user()->hasRole(['admin', 'super-admin'])) {
             
-            $loans = Loan::all();
-            $users = Loan::with('user')->latest()->get();
+                // Admins see all loans
+                $loans = Loan::with('user')->latest()->get();
 
+            } else {
+                // Normal users see ONLY their loans
+            $loans = Loan::with('user') ->where('user_id', auth()->id())->latest()->get();
+            }
 
-            return view('admin.loans.show_loans', compact('loans','users'));
+            return view('admin.loans.show_loans', compact('loans'))->with('i', 0);
         }
            
     //  Apply loans 

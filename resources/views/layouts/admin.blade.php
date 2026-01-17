@@ -62,13 +62,13 @@
                             </a>
                         @endcan
                         
-                        @can('apply loan')
+                        {{-- @can('apply loan')
                             <a href="{{ route('loans.apply_loan') }}"
                                 class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
                                 <i class="bi bi-cash-stack"></i>
                                Apply Loan
                             </a>
-                        @endcan
+                        @endcan --}}
 
                         @can('manage pdf')
                             <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700"> <i

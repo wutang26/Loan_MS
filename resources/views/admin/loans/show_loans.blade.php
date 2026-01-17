@@ -36,7 +36,8 @@
         <!-- Link to create Loan -->
 
         @auth
-            @role('super-admin|admin')
+            {{-- @role('super-admin|admin|user') --}}
+            @can('apply loan')
                 <a href="{{ route('loans.apply_loan') }}"
                     style="
                     background-color:#bbf7d0;
@@ -50,7 +51,8 @@
                     white-space:nowrap;">
                     Apply Loan
                 </a>
-            @endrole
+                @endcan
+            {{-- @endrole --}}
         @endauth
 
         <!---Define veriable for extra usage--->
