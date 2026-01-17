@@ -8,11 +8,13 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 //use App\Http\Controllers\Admin\RolePermissionController;
 use App\Http\Controllers\Admin\AuditLogController;
+use App\Http\Controllers\Admin\LoanApprovalController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\HighChartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -196,6 +198,19 @@ Route::get('/regions', [SettingController::class, 'regions'])
     Route::delete('/currencies/{id}/delete',[SettingController::class, 'deleteCurrency'])->name('settings.currencies.deleteCurrency');
 
 
+});
+
+//Histogram Popup
+Route::get('/highcharts', [HighChartController::class, 'index']);
+
+//Loan Approval
+Route::middleware(['auth','can:approve-loans'])->group(function () {
+    Route::get('loans', [LoanApprovalController::class,'index'])->name('loans.show_loans');
+    Route::get('/applyLoan', [LoanApprovalController::class, 'create'])->name('loans.apply_loan');
+    Route::post('/loans/store', [LoanApprovalController::class, 'store'])->name('loans.store');
+
+    Route::post('/admin/loans/{loan}/approve', [LoanApprovalController::class,'approve']);
+    Route::post('/admin/loans/{loan}/reject', [LoanApprovalController::class,'reject']);
 });
 
 

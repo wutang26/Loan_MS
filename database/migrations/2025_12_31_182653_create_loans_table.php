@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('member_id')->constrained('members')->onDelete('cascade');
             $table->foreignId('loan_disbursement_id')->constrained('loan_disbursements')->onDelete('cascade');
             $table->string('loan_amount');
-            $table->string('interest_rate');
+            $table->string('interest_rate', 5,2); //%
             $table->string('loan_period_months');
             $table->string('interest_amount');
             $table->string('total_repayment'); //full amount the borrower is required to pay for the loan.
@@ -24,7 +24,18 @@ return new class extends Migration
             $table->string('out_standing_loan');  //remaining_balance   
             $table->string('start_date');
             $table->string('end_date');
+            $table->enum('status', [
+                'pending',     // applied
+                'approved',    // officer approved
+                'disbursed',   // money sent
+                'active',      // repayments ongoing
+                'completed',   // fully paid
+                'rejected'
+            ])->default('pending');
             $table->enum('application_status', ['active', 'closed', 'defaulted'])->default('defaulted');
+            $table->date('applied_at')->nullable();
+            $table->date('approved_at')->nullable();
+            $table->date('disbursed_at')->nullable();
             $table->timestamps();
         });
     }
