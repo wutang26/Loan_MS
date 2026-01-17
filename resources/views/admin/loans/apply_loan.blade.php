@@ -8,99 +8,87 @@
 
         <!-- Back Button -->
         <div>
-            <a href="{{ route('admin.members.index') }}" class="text-blue-600 hover:underline">&larr; Back</a>
+            <a href="{{ route('loans.show_loans') }}" class="text-blue-600 hover:underline">&larr; Back</a>
         </div>
 
         <!-- Form Card -->
         <div class="bg-white p-6 rounded-xl shadow-lg w-full mx-auto overflow-x-auto">
 
-            <h2 class="text-2xl font-bold mb-6 text-center">Apply Loan</h2>
+            <h2 class="text-2xl font-bold mb-6 text-center">Loan Details</h2>
 
-            <form method="POST" action="{{ route('loans.store') }}" class="space-y-6">
-                @csrf
+        <form method="POST" action="{{ route('loans.store') }}" class="space-y-6">
+    @csrf
 
-                <!-- SECTION: BASIC INFO -->
-                <h3 class="text-lg font-semibold mb-3 border-b pb-1">Basic Information</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="flex flex-col">
-                        <label class="form-label">Member Reg. No.</label>
-                        <input type="text" name="member_number" class="form-input max-w-md" required>
-                    </div>
+    {{-- Validation Errors --}}
+    @if ($errors->any())
+        <div class="bg-red-100 text-red-700 p-3 rounded">
+            <ul class="list-disc pl-5">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
-                    <div class="flex flex-col">
-                        <label class="form-label">Date Joined</label>
-                    <input type="date" name="date_joined"  class="form-input max-w-md"  max="{{ date('Y-m-d') }}" required>
-                    </div>
+    {{-- Loan Details --}}
+    {{-- <h3 class="text-lg font-semibold border-b pb-1">Loan Details</h3> --}}
 
-                    <div class="flex flex-col">
-                        <label class="form-label">First Name</label>
-                        <input type="text" name="first_name" class="form-input max-w-md" required>
-                    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {{-- LEFT COLUMN --}}
+        <div class="flex flex-col">
+            <label class="form-label">Loan Amount</label>
+            <input
+                type="number"
+                name="loan_amount"
+                value="{{ old('loan_amount') }}"
+                class="form-input"
+                min="1000"
+                step="0.01"
+                required>
+        </div>
 
-                    <div class="flex flex-col">
-                        <label class="form-label">Middle Name</label>
-                        <input type="text" name="middle_name" class="form-input max-w-md">
-                    </div>
+        {{-- RIGHT COLUMN --}}
+        <div class="flex flex-col">
+            <label class="form-label">Loan Period (Months)</label>
+            <select name="loan_period_months" class="form-input" required>
+                <option value="">Select period</option>
+                @for ($i = 1; $i <= 60; $i++)
+                    <option value="{{ $i }}" {{ old('loan_period_months') == $i ? 'selected' : '' }}>
+                        {{ $i }} Months
+                    </option>
+                @endfor
+            </select>
+        </div>
+    </div>
 
-                    <div class="flex flex-col">
-                        <label class="form-label">Last Name</label>
-                        <input type="text" name="last_name" class="form-input max-w-md" required>
-                    </div>
+    {{-- Purpose (Full Width) --}}
+    <div class="flex flex-col">
+        <label class="form-label">Purpose of Loan</label>
+        <textarea
+            name="purpose"
+            rows="3"
+            class="form-input"
+            placeholder="E.g. Business expansion, school fees...">{{ old('purpose') }}</textarea>
+    </div>
 
-                    <div class="flex flex-col">
-                        <label class="form-label">Phone Number</label>
-                        <input type="text" name="phone" class="form-input max-w-md" required>
-                    </div>
-                </div>
+    {{-- Info Box --}}
+    <div class="bg-blue-50 text-blue-700 p-4 rounded">
+        <p class="text-sm">
+            <strong>Note:</strong> Interest rate, repayment amount, and loan status
+            will be calculated automatically after submission.
+        </p>
+    </div>
 
-                <!-- SECTION: LOCATION -->
-                {{-- <h3 class="text-lg font-semibold mt-8 mb-3 border-b pb-1">Location</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="flex flex-col">
-                        <label class="form-label">Region</label>
-                        <select name="region_id" class="form-input max-w-md" required>
-                            @foreach ($regions as $region)
-                                <option value="{{ $region->id }}">{{ $region->name }}</option>
-                            @endforeach
-                        </select>
-                    </div> --}}
+    {{-- Submit --}}
+    <div class="text-center pt-6">
+        <button
+            type="submit"
+            class="bg-blue-600 text-white px-10 py-3 rounded-lg text-lg hover:bg-blue-700 transition">
+            Submit Loan Application
+        </button>
+    </div>
+</form>
 
-                    {{-- <div class="flex flex-col">
-                        <label class="form-label">District</label>
-                        <select name="district_id" class="form-input max-w-md" required>
-                            @foreach ($districts as $district)
-                                <option value="{{ $district->id }}">{{ $district->name }}</option>
-                            @endforeach
-                        </select>
-                    </div> --}}
-                </div>
-
-                <!-- Home Address + Status on the same row -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-                    <div class="flex flex-col">
-                        <label class="form-label">Home Address</label>
-                        <input type="text" name="address" class="form-input max-w-md" required>
-                    </div>
-
-                    <div class="flex flex-col">
-                        <label class="form-label">Status</label>
-                        <select name="status" class="form-input max-w-md" required>
-                            <option value="">Select Status</option>
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
-                            <option value="inactive">Pending</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <!-- BUTTON -->
-                <div class="mt-10 text-center">
-                    <button type="submit"
-                        class="bg-blue-600 text-white px-10 py-3 rounded-lg text-lg hover:bg-blue-700 transition">
-                        Save Loan
-                    </button>
-                </div>
-            </form>
         </div>
     </div>
 @endsection

@@ -58,100 +58,88 @@
             $i = 0;
         @endphp
         <!--- End Define veriable for extra usage--->
-
         <table class="w-full border border-gray-300 text-sm">
             <thead class="bg-gray-100">
                 <tr>
                     <th class="border px-3 py-2 text-left">Id</th>
-                    <th class="border px-3 py-2 text-left">First Name</th>
-                    <th class="border px-3 py-2 text-left">Middle Name</th>
-                    <th class="border px-3 py-2 text-left">Last Name</th>
+                    <th class="border px-3 py-2 text-left">Applicant</th>
                     <th class="border px-3 py-2 text-left">Amount</th>
                     <th class="border px-3 py-2 text-left">Total Repayment</th>
                     <th class="border px-3 py-2 text-left">Outstanding Loan</th>
                     <th class="border px-3 py-2 text-left">Status</th>
 
-                       @auth
-                            @role('super-admin|admin')
-                        <th class="border px-3 py-2 text-left">Actions</th>
-                    @endrole
-                @endauth
-                
+                    @auth
+                        @role('super-admin|admin')
+                            <th class="border px-3 py-2 text-left">Actions</th>
+                        @endrole
+                    @endauth
                 </tr>
             </thead>
 
             <tbody>
-                @foreach ($loans as $member)
+                @foreach ($loans as $loan)
                     <tr class="bg-white hover:bg-gray-100">
                         <td class="border px-3 py-2">{{ ++$i }}</td>
-                        <td class="border px-3 py-2">{{ $member->first_name }}</td>
-                        <td class="border px-3 py-2">{{ $member->middle_name }}</td>
-                        <td class="border px-3 py-2">{{ $member->last_name }}</td>
-                        <td class="border px-3 py-2">{{ $member->amount }}</td>
-                        <td class="border px-3 py-2">{{ $member->total_repayment->name }}</td>
-                        <td class="border px-3 py-2">{{ $member->out_standing_loans }}</td>
+
+                        {{-- User Name --}}
+                        <td class="border px-3 py-2">
+                            {{ $loan->user->name ?? 'N/A' }}
+                        </td>
+
+                        <td class="border px-3 py-2">
+                            {{ number_format($loan->loan_amount, 2) }}
+                        </td>
+
+                        <td class="border px-3 py-2">
+                            {{ number_format($loan->total_repayment, 2) }}
+                        </td>
+
+                        <td class="border px-3 py-2">
+                            {{ number_format($loan->outstanding_loan, 2) }}
+                        </td>
+
                         <td class="border px-3 py-2">
                             <span
                                 class="inline-flex items-center justify-center min-w-[90px] px-3 py-1 rounded-full
-                             text-sm font-semibold text-center
-                             {{ $member->status === 'active'
-                                 ? 'bg-green-100 text-green-700'
-                                 : ($member->status === 'pending'
-                                     ? 'bg-yellow-100 text-yellow-700'
-                                     : 'bg-red-100 text-red-700') }}">
-                                {{ ucfirst($member->status) }}
+                        text-sm font-semibold text-center
+                        {{ $loan->application_status === 'approved'
+                            ? 'bg-green-100 text-green-700'
+                            : ($loan->application_status === 'pending'
+                                ? 'bg-yellow-100 text-yellow-700'
+                                : 'bg-red-100 text-red-700') }}">
+                                {{ ucfirst($loan->application_status) }}
                             </span>
-
                         </td>
 
                         @auth
                             @role('super-admin|admin')
                                 <td class="border px-3 py-2">
-                                    <a href="{{ route('admin.loans.approve', $member->id) }}"
+                                    {{-- route('admin.loans.approve', $loan->id) --}}
+                                    <a href="#"
                                         class="inline-flex items-center justify-center
-                                        min-w-[70px] px-3 py-1
-                                        rounded-full text-sm font-semibold
-                                        bg-blue-500 text-white
-                                        hover:bg-blue-600 transition">
-                                        Approve loan
-                                        {{-- Edit --}}
+                                min-w-[70px] px-3 py-1
+                                rounded-full text-sm font-semibold
+                                bg-blue-500 text-white
+                                hover:bg-blue-600 transition">
+                                        Approve
                                     </a>
-                                   
-                                      <a href="{{ route('admin.loans.reject', $member->id) }}"
+                                        {{-- {{ route('admin.loans.reject', $loan->id) }} --}}
+                                    <a href="#"
                                         class="inline-flex items-center justify-center
-                                        min-w-[70px] px-3 py-1
-                                        rounded-full text-sm font-semibold
-                                        bg-blue-500 text-white
-                                        hover:bg-blue-600 transition">
-                                        Reject Loan
-                                        {{-- Edit --}}
+                                min-w-[70px] px-3 py-1
+                                rounded-full text-sm font-semibold
+                                bg-red-500 text-white
+                                hover:bg-red-600 transition ml-2">
+                                        Reject
                                     </a>
-
-                                    <br><br>
-                                    <!-- Delete Button -->
-                                    <form action="{{ route('admin.loans.deleteMember', $member->id) }}" method="POST"
-                                        onsubmit="return confirm('Are you sure you want to delete this member?');">
-                                        @csrf
-                                        @method('DELETE')
-
-                                        <button type="submit"
-                                            class="inline-flex items-center justify-center
-                                                px-3 py-1 min-w-[70px]
-                                                rounded-full text-sm font-semibold
-                                                bg-red-500 text-white
-                                                hover:bg-red-600 transition">
-                                            Delete
-                                        </button>
-                                    </form>
-
                                 </td>
                             @endrole
                         @endauth
-
                     </tr>
                 @endforeach
             </tbody>
         </table>
+
 
     </div>
 

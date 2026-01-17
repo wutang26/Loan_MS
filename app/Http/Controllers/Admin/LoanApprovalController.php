@@ -12,9 +12,13 @@ class LoanApprovalController extends Controller
     //User will be able to see loans infomations Submitted(Pending) or Rejected or approved
             public function index()
         {
-            $loans = Loan::where('status','pending')->get();
+            //$loans = Loan::where('status','pending')->get();
+            
+            $loans = Loan::all();
+            $users = Loan::with('user')->latest()->get();
 
-            return view('admin.loans.show_loans', compact('loans'));
+
+            return view('admin.loans.show_loans', compact('loans','users'));
         }
            
     //  Apply loans 
@@ -24,39 +28,41 @@ class LoanApprovalController extends Controller
         return view('admin.loans.apply_loan');
     }
 
-    // Store loans
-    public function store(Request $request)
-    {
-        //Pass and Validate first
-        $request->validate([
-            'first_name'     => 'required|string|max:255', //or "required"
-            'middle_name'     => 'required|string|max:255', //or "required"
-            'last_name'     => 'required|string|max:255', //or "required"
-            'amount'     => 'required|string|max:255', //or "required"
-            'total_repayment'     => 'required|string|max:255', //or "required"
-            'outstanding_loan' => 'required|exists:regions,id',
-            'status'     => 'required|string|max:255', //or "required"
+            // Store loans
+        public function store(Request $request)
+        {
+            $request->validate([
+                'loan_amount'        => 'required|numeric|min:1000',
+                'loan_period_months' => 'required|integer|min:1|max:60',
+                'purpose'            => 'nullable|string|max:255',
+            ]);
+            
+            
+            $applicationDate = now()->toDateString(); // today
 
-            //'email'    => 'required|email|unique:users,email', //or  "required"
-            //'password' => 'required|min:6', #Should not be empty |minimum length/value must be 6  or  "required"
-        ]);
+            $interestRate = 0.10; // 10%
+            $totalRepayment = $request->loan_amount * (1 + $interestRate);
 
-        Loan::create([
-           
-            'first_name'    => $request->first_name,
-            'middle_name'    => $request->middle_name,
-            'last_name'    => $request->last_name,
-            'amount'    => $request->amount,
-            'total_repayment'    => $request->total_repayment,
-            'outstanding_loan'    => $request->region_id,
-            'status'    => $request->status,
+            $startDate = now();
+            $endDate = now()->addMonths($request->loan_period_months);
 
-            //'password' => Hash::make($request->password),
-        ]);
+            Loan::create([
+                'user_id'              => auth()->id(),
+                'loan_amount'          => $request->loan_amount,
+                'loan_period_months'   => $request->loan_period_months,
+                'interest_rate'      => $interestRate,   // ⚠ Corrected use defined above variable
+                'total_repayment'      => $totalRepayment,
+                'outstanding_loan'     => $totalRepayment,
+                'start_date'           => $startDate,
+                'end_date'             => $endDate,
+                'application_date'   => $applicationDate,  // ⚠ Added
+                'application_status'   => 'pending', // User should not submit status
+                'purpose'              => $request->purpose,
+            ]);
 
-        return redirect()->route('admin.loans.index')
-            ->with('success', 'Loan created successfully');
-    }
+            return redirect()->route('loans.show_loans')
+                ->with('success', 'Loan application submitted successfully');
+        }
 
 
 

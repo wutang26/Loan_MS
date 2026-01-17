@@ -37,10 +37,52 @@
                 </a>
 
 
-                <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
+                {{-- <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
                     <i class="bi bi-file-earmark-text"></i>
                     Loan Applications
-                </a>
+                </a> --}}
+
+                <!---- Loan Application---->
+                  <div class="dropdown">
+                    <button
+                        class="dropdown-toggle w-full flex items-center justify-between gap-3 px-4 py-2 hover:bg-gray-700">
+                        <div class="flex items-center gap-3">
+                            <i class="bi bi-file-earmark-text"></i>
+                            Loan Application
+                        </div>
+                        <i class="bi bi-chevron-down text-xs"></i>
+                    </button>
+
+                    <div class="dropdown-menu hidden ml-8 mt-1 space-y-1 text-sm">
+                        @can('apply loan')
+                            <a href="{{ route('loans.show_loans') }}"
+                                class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
+                                <i class="bi bi-people"></i>
+                                 Applied Loans
+                            </a>
+                        @endcan
+                        
+                        @can('apply loan')
+                            <a href="{{ route('loans.apply_loan') }}"
+                                class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
+                                <i class="bi bi-cash-stack"></i>
+                               Apply Loan
+                            </a>
+                        @endcan
+
+                        @can('manage pdf')
+                            <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700"> <i
+                                    class="bi bi-credit-card"></i> Repayments Report </a>
+                            @endcan @can('manage pdf')
+                            <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700"> <i
+                                    class="bi bi-arrow-left-right">
+                                </i> Disbursement Report </a>
+                        @endcan
+
+                    </div>
+                </div>
+
+
 
                 <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
                     <i class="bi bi-check-circle"></i>
@@ -62,7 +104,7 @@
                     Repayments
                 </a>
 
-                <!-- REPORTS DROPDOWN -->
+    
                 <!-- REPORTS DROPDOWN -->
                 <div class="dropdown">
                     <button

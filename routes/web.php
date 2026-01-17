@@ -204,11 +204,10 @@ Route::get('/regions', [SettingController::class, 'regions'])
 Route::get('/highcharts', [HighChartController::class, 'index']);
 
 //Loan Approval
-Route::middleware(['auth','can:approve-loans'])->group(function () {
+Route::middleware(['auth', 'permission:view reports|apply loan|view loans'])->group(function () {
     Route::get('loans', [LoanApprovalController::class,'index'])->name('loans.show_loans');
     Route::get('/applyLoan', [LoanApprovalController::class, 'create'])->name('loans.apply_loan');
     Route::post('/loans/store', [LoanApprovalController::class, 'store'])->name('loans.store');
-
     Route::post('/admin/loans/{loan}/approve', [LoanApprovalController::class,'approve']);
     Route::post('/admin/loans/{loan}/reject', [LoanApprovalController::class,'reject']);
 });
