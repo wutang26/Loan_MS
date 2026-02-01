@@ -58,21 +58,24 @@
                             <a href="{{ route('loans.show_loans') }}"
                                 class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
                                 <i class="bi bi-people"></i>
-                                 Apply Loans
+                                 Show Loans
                             </a>
-                        @endcan
-                        
-                        <!-- {{-- @can('apply loan') -->
-                            <a href="{{ route('loans.apply_loan') }}"
-                                class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
-                                <i class="bi bi-cash-stack"></i>
-                               Apply Loan
-                            </a>
-                        <!-- @endcan --}} -->
+                     @endcan
+                                        
+                    @can('apply loan')
+                    @if(!auth()->user()->hasActiveLoan())
+                    <a href="{{ route('loans.apply_loan') }}"
+                        class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
+                        <i class="bi bi-cash-stack"></i>
+                        Apply Loan
+                    </a>
+                @endif
+                @endcan
+
 
                         @can('manage pdf')
                             <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700"> <i
-                                    class="bi bi-credit-card"></i> Repayments Report </a>
+                                    class="bi bi-credit-card"></i> Repayments History </a>
                             @endcan @can('manage pdf')
                             <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700"> <i
                                     class="bi bi-arrow-left-right">
@@ -82,12 +85,13 @@
                     </div>
                 </div>
 
-                @can('manage pdf')
-                <a href="{{ route('loans.approved_loans') }}" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
-                    <i class="bi bi-check-circle"></i>
-                    Loan Approvals
-                </a>
-                @endcan
+               @if(auth()->user()->hasApprovedLoan())
+            <a href="{{ route('loans.approved_loans') }}" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
+                <i class="bi bi-check-circle"></i>
+                Loan Approvals
+            </a>
+            @endif
+
 
                 <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
                     <i class="bi bi-cash-stack"></i>

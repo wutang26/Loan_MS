@@ -225,7 +225,7 @@ Route::middleware(['auth', 'permission:view reports|apply loan|view loans'])->gr
         ->name('loans.by_status'); // status is optional, defaults to pending
 
     // Approve / Reject / Disburse
-    Route::post('/admin/loans/{loan}/approve', [LoanApprovalController::class,'approve'])->name('loans.approved_loans');
+    Route::post('/admin/loans/{loan}/approve', [LoanApprovalController::class,'approve'])->name('loans.approved_loans')->middleware('auth');
     Route::post('/admin/loans/{loan}/reject', [LoanApprovalController::class,'reject'])->name('loans.reject');
     Route::post('/admin/loans/{loan}/disburse', [LoanApprovalController::class,'disburse'])->name('loans.disburse');
 

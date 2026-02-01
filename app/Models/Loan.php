@@ -58,6 +58,12 @@ class Loan extends Model
         return $this->belongsTo(User::class);
     }
 
+    //Repayments
+    public function repayments()
+    {
+        return $this->hasMany(LoanRepayment::class);
+    }
+
     /**
      * Loan belongs to a member (if applicable)
      */
@@ -72,14 +78,6 @@ class Loan extends Model
     public function disbursement()
     {
         return $this->belongsTo(LoanDisbursement::class, 'loan_disbursement_id');
-    }
-
-    /**
-     * One Loan → Many Repayments
-     */
-    public function repayments()
-    {
-        return $this->hasMany(LoanRepayment::class);
     }
 
     /* ===============================
@@ -160,4 +158,8 @@ class Loan extends Model
 
         $this->save();
     }
+
+
+
+
 }

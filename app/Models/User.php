@@ -73,4 +73,28 @@ class User extends Authenticatable
     return $this->belongsTo(User::class);
 }
 
+public function loans()
+{
+    return $this->hasMany(Loan::class);
+}
+
+
+/**
+ * Check if user has a loan with outstanding balance
+ */
+public function hasActiveLoan()
+{
+    return $this->loans()
+        ->where('outstanding_loan', '>', 0)
+        ->exists();
+}
+
+   //User has Approved Loan
+    public function hasApprovedLoan()
+{
+    return $this->loans()
+        ->where('application_status', 'approved')
+        ->exists();
+}
+
 }

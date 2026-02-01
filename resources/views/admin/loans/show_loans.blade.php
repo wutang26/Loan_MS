@@ -29,9 +29,9 @@
         </div>
     @endif
 
-      @php
-            $statuses = ['pending', 'approved', 'rejected', 'disbursed'];
-        @endphp
+    @php
+        $statuses = ['pending', 'approved', 'rejected', 'disbursed'];
+    @endphp
 
 
     <div class="grid grid-cols-1 md:grid-cols-1 gap-6>
@@ -40,10 +40,11 @@
 
         <!-- Link to create Loan -->
 
-        @auth
-            {{-- @role('super-admin|admin|user') --}}
-            @can('apply loan')
-                <a href="{{ route('loans.apply_loan') }}"
+        @can('apply loan')
+            @if (
+                !auth()->user()->hasActiveLoan() ||
+                    auth()->user()->hasAnyRole(['super-admin', 'admin']))
+                <a href="{{ route('loans.apply_loan') }}" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700"
                     style="
                     background-color:#bbf7d0;
                     color:#000;
@@ -54,11 +55,11 @@
                     display:inline-block;
                     width:fit-content;
                     white-space:nowrap;">
+                    <i class="bi bi-cash-stack"></i>
                     Apply Loan
                 </a>
-                @endcan
-            {{-- @endrole --}}
-        @endauth
+            @endif
+        @endcan
 
         <!---Define veriable for extra usage--->
         @php
@@ -115,43 +116,39 @@
                                 : 'bg-red-100 text-red-700') }}">
                                 {{ ucfirst($loan->application_status) }}
                             </span>
-                      </td>
-                      @auth
-@role('super-admin|admin')
-<td class="border px-3 py-2">
+                        </td>
+                        @auth
+                            @role('super-admin|admin')
+                                <td class="border px-3 py-2">
 
-<form action="{{ route('loans.updateStatus', $loan->id) }}" method="POST" class="flex gap-2">
-    @csrf
-    @method('PUT')
+                                    <form action="{{ route('loans.updateStatus', $loan->id) }}" method="POST" class="flex gap-2">
+                                        @csrf
+                                        @method('PUT')
 
-    <select name="status" class="border rounded px-2 py-1 text-sm">
-        @foreach ($statuses as $status)
-            <option value="{{ $status }}"
-                {{ $loan->application_status == $status ? 'selected' : '' }}>
-                {{ ucfirst($status) }}
-            </option>
-        @endforeach
-    </select>
+                                        <select name="status" class="border rounded px-2 py-1 text-sm">
+                                            @foreach ($statuses as $status)
+                                                <option value="{{ $status }}"
+                                                    {{ $loan->application_status == $status ? 'selected' : '' }}>
+                                                    {{ ucfirst($status) }}
+                                                </option>
+                                            @endforeach
+                                        </select>
 
-    <button type="submit"
-        class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600">
-        Update
-    </button>
+                                        <button type="submit"
+                                            class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600">
+                                            Update
+                                        </button>
 
-</form>
+                                    </form>
 
-</td>
-@endrole
-@endauth
-
+                                </td>
+                            @endrole
+                        @endauth
                 @endforeach
             </tbody>
         </table>
 
-
     </div>
-
-
 
     </div>
 @endsection
