@@ -33,25 +33,39 @@
 
         <div g-white p-4 rounded shadow overflow-x-auto">
 
-        <!-- Link to create Member -->
+   @auth
+@role('super-admin|admin')
+<div style="display:flex; align-items:center; justify-content:space-between;">
 
-        @auth
-            @role('super-admin|admin')
-                <a href="{{ route('members.create') }}"
-                    style="
-      background-color:#bbf7d0;
-      color:#000;
-      padding:10px 10px;
-      border-radius:20px;
-      font-size:17px;
-      text-decoration:none;
-      display:inline-block;
-      width:fit-content;
-      white-space:nowrap;">
-                    Register Member
-                </a>
-            @endrole
-        @endauth
+    <!-- Register Member (left) -->
+    <a href="{{ route('members.create') }}"
+       style="
+            background-color:#bbf7d0;
+            color:#000;
+            padding:10px 14px;
+            border-radius:20px;
+            font-size:17px;
+            text-decoration:none;
+            white-space:nowrap;">
+        Register Member
+    </a>
+
+    <!-- Register Group (right) -->
+    <a href="{{ route('members.create') }}"
+       style="
+            background-color:#bbf7d0;
+            color:#000;
+            padding:10px 14px;
+            border-radius:20px;
+            font-size:17px;
+            text-decoration:none;
+            white-space:nowrap;">
+        Register Group
+    </a>
+
+</div>
+@endrole
+@endauth
 
         <!---Define veriable for extra usage--->
         @php

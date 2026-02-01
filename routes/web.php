@@ -155,16 +155,13 @@ Route::get('/members', [AdminController::class, 'members'])->name('admin.members
 
 Route::get('/create', [AdminController::class, 'create'])->name('members.create');
 
-Route::post('/members', [AdminController::class, 'store'])
-    ->name('members.store');
+Route::post('/members', [AdminController::class, 'store'])->name('members.store');
 
     //Edit Members
-Route::get('/admin/members/{id}/edit', [AdminController::class, 'edit'])
-    ->name('admin.members.edit');
+Route::get('/admin/members/{id}/edit', [AdminController::class, 'edit'])->name('admin.members.edit');
 
 // Update member
-Route::put('/admin/members/{id}', [AdminController::class, 'update'])
-    ->name('admin.members.update');
+Route::put('/admin/members/{id}', [AdminController::class, 'update'])->name('admin.members.update');
 //Delete Member
 Route::delete('members/{id}/delete', [AdminController::class, 'deleteMember'])->name('admin.members.deleteMember');
 
@@ -218,6 +215,22 @@ Route::middleware(['auth', 'permission:view reports|apply loan|view loans'])->gr
     Route::post('/admin/loans/{loan}/approve', [LoanApprovalController::class,'approve']);
     Route::post('/admin/loans/{loan}/reject', [LoanApprovalController::class,'reject']);
     Route::post('/users/{user}/assign-permissions', [UserPermissionController::class, 'assignPermissions'])->name('users.assign_permissions');
+    
+    //Approved Loans
+    Route::get('/approvedLoans', [LoanApprovalController::class,'approvedLoans'])->name('loans.approved_loans');
+    
+     // Approve / Reject / Disburse
+   // All loans filtered by status
+    Route::get('loans/status/{status?}', [LoanApprovalController::class,'loansByStatus'])
+        ->name('loans.by_status'); // status is optional, defaults to pending
+
+    // Approve / Reject / Disburse
+    Route::post('/admin/loans/{loan}/approve', [LoanApprovalController::class,'approve'])->name('loans.approved_loans');
+    Route::post('/admin/loans/{loan}/reject', [LoanApprovalController::class,'reject'])->name('loans.reject');
+    Route::post('/admin/loans/{loan}/disburse', [LoanApprovalController::class,'disburse'])->name('loans.disburse');
+
+    Route::put('/loans/{loan}/status', [LoanApprovalController::class, 'updateStatus'])
+    ->name('loans.updateStatus');
 
     });
 

@@ -29,6 +29,11 @@
         </div>
     @endif
 
+      @php
+            $statuses = ['pending', 'approved', 'rejected', 'disbursed'];
+        @endphp
+
+
     <div class="grid grid-cols-1 md:grid-cols-1 gap-6>
 
         <div g-white p-4 rounded shadow overflow-x-auto">
@@ -69,7 +74,6 @@
                     <th class="border px-3 py-2 text-left">Total Repayment</th>
                     <th class="border px-3 py-2 text-left">Outstanding Loan</th>
                     <th class="border px-3 py-2 text-left">Status</th>
-
                     @auth
                         @role('super-admin|admin')
                             <th class="border px-3 py-2 text-left">Actions</th>
@@ -111,33 +115,35 @@
                                 : 'bg-red-100 text-red-700') }}">
                                 {{ ucfirst($loan->application_status) }}
                             </span>
-                        </td>
+                      </td>
+                      @auth
+@role('super-admin|admin')
+<td class="border px-3 py-2">
 
-                        @auth
-                            @role('super-admin|admin')
-                                <td class="border px-3 py-2">
-                                    {{-- route('admin.loans.approve', $loan->id) --}}
-                                    <a href="#"
-                                        class="inline-flex items-center justify-center
-                                min-w-[70px] px-3 py-1
-                                rounded-full text-sm font-semibold
-                                bg-blue-500 text-white
-                                hover:bg-blue-600 transition">
-                                        Approve
-                                    </a>
-                                        {{-- {{ route('admin.loans.reject', $loan->id) }} --}}
-                                    <a href="#"
-                                        class="inline-flex items-center justify-center
-                                min-w-[70px] px-3 py-1
-                                rounded-full text-sm font-semibold
-                                bg-red-500 text-white
-                                hover:bg-red-600 transition ml-2">
-                                        Reject
-                                    </a>
-                                </td>
-                            @endrole
-                        @endauth
-                    </tr>
+<form action="{{ route('loans.updateStatus', $loan->id) }}" method="POST" class="flex gap-2">
+    @csrf
+    @method('PUT')
+
+    <select name="status" class="border rounded px-2 py-1 text-sm">
+        @foreach ($statuses as $status)
+            <option value="{{ $status }}"
+                {{ $loan->application_status == $status ? 'selected' : '' }}>
+                {{ ucfirst($status) }}
+            </option>
+        @endforeach
+    </select>
+
+    <button type="submit"
+        class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600">
+        Update
+    </button>
+
+</form>
+
+</td>
+@endrole
+@endauth
+
                 @endforeach
             </tbody>
         </table>
