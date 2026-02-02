@@ -43,7 +43,7 @@
                 </a> --}}
 
                 <!---- Loan Application---->
-                  <div class="dropdown">
+                <div class="dropdown">
                     <button
                         class="dropdown-toggle w-full flex items-center justify-between gap-3 px-4 py-2 hover:bg-gray-700">
                         <div class="flex items-center gap-3">
@@ -58,19 +58,19 @@
                             <a href="{{ route('loans.show_loans') }}"
                                 class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
                                 <i class="bi bi-people"></i>
-                                 Show Loans
+                                Show Loans
                             </a>
-                     @endcan
-                                        
-                    @can('apply loan')
-                    @if(!auth()->user()->hasActiveLoan())
-                    <a href="{{ route('loans.apply_loan') }}"
-                        class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
-                        <i class="bi bi-cash-stack"></i>
-                        Apply Loan
-                    </a>
-                @endif
-                @endcan
+                        @endcan
+
+                        @can('apply loan')
+                            @if (!auth()->user()->hasActiveLoan())
+                                <a href="{{ route('loans.apply_loan') }}"
+                                    class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
+                                    <i class="bi bi-cash-stack"></i>
+                                    Apply Loan
+                                </a>
+                            @endif
+                        @endcan
 
 
                         @can('manage pdf')
@@ -85,12 +85,13 @@
                     </div>
                 </div>
 
-               @if(auth()->user()->hasApprovedLoan())
-            <a href="{{ route('loans.approved_loans') }}" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
-                <i class="bi bi-check-circle"></i>
-                Loan Approvals
-            </a>
-            @endif
+                @if (auth()->user()->hasApprovedLoan())
+                    <a href="{{ route('loans.approved_loans') }}"
+                        class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
+                        <i class="bi bi-check-circle"></i>
+                        Loan Approvals
+                    </a>
+                @endif
 
 
                 <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
@@ -103,12 +104,39 @@
                     Active Loans
                 </a>
 
-                <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
-                    <i class="bi bi-credit-card"></i>
-                    Repayments
-                </a>
+                <!---- Repayments ---->
+                <div class="dropdown">
 
-    
+                    @php
+                        $hasDisbursedLoan = auth()->user()->loans()->where('application_status', 'disbursed')->exists();
+                        $disbursedLoan = auth()->user()->loans()->where('application_status', 'disbursed')->first();
+                    @endphp
+
+                    <div class="dropdown">
+                        <button
+                            class="dropdown-toggle w-full flex items-center justify-between gap-3 px-4 py-2 hover:bg-gray-700">
+                            <div class="flex items-center gap-3">
+                                <i class="bi bi-credit-card"></i>
+                                Repayments
+                            </div>
+                            <i class="bi bi-chevron-down text-xs"></i>
+                        </button>
+
+                        <div class="dropdown-menu hidden ml-8 mt-1 space-y-1 text-sm">
+                            @if ($hasDisbursedLoan)
+                                <a href="{{ route('loans.repayments', $disbursedLoan->id) }}"
+                                    class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
+                                    <i class="bi bi-eye"></i>
+                                    View Repayment Schedule
+                                </a>
+                            @else
+                                <span class="block px-4 py-2 text-gray-400">No Repayment Available</span>
+                            @endif
+                        </div>
+                    </div>
+
+                </div>
+
                 <!-- REPORTS DROPDOWN -->
                 <div class="dropdown">
                     <button
@@ -140,7 +168,7 @@
                         @can('manage pdf')
                             <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700"> <i
                                     class="bi bi-credit-card"></i> Repayments Report </a>
-                         @endcan @can('manage pdf')
+                            @endcan @can('manage pdf')
                             <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700"> <i
                                     class="bi bi-arrow-left-right">
                                 </i> Disbursement Report </a>
@@ -202,15 +230,15 @@
 
                         <a href="{{ route('settings.regions.region') }}"
                             class="block px-4 py-2 hover:bg-gray-700 rounded">
-                               <i class="bi bi-globe"></i> Regions
+                            <i class="bi bi-globe"></i> Regions
                         </a>
 
                         <a href="{{ route('settings.district') }}" class="block px-4 py-2 hover:bg-gray-700 rounded">
-                             <i class="bi bi-geo"></i> Districts
+                            <i class="bi bi-geo"></i> Districts
                         </a>
 
                         <a href="{{ route('settings.currency') }}" class="block px-4 py-2 hover:bg-gray-700 rounded">
-                             <i class="bi bi-coin"></i> Currencies
+                            <i class="bi bi-coin"></i> Currencies
                         </a>
                     </div>
                 </div>
@@ -241,12 +269,14 @@
 
                 <div class="relative inline-block text-left">
                     <!-- User Button -->
-                    <button type="button" class="flex items-center space-x-2 focus:outline-none" id="user-menu-button">
+                    <button type="button" class="flex items-center space-x-2 focus:outline-none"
+                        id="user-menu-button">
                         <img class="h-8 w-8 rounded-full" src="{{ Auth::user()->profile_photo_url }}"
                             alt="User Profile">
                         <span class="font-medium text-gray-700">{{ Auth::user()->name }}</span>
                         <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
 
@@ -305,18 +335,19 @@
     </div>
 
 </body>
-        {{-- 
+{{-- 
         Handle the dropdown menus --}}
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                document.querySelectorAll('.dropdown-toggle').forEach(button => {
-                    button.addEventListener('click', () => {
-                        const menu = button.nextElementSibling;
-                        menu.classList.toggle('hidden');
-                    });
-                });
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.dropdown-toggle').forEach(button => {
+            button.addEventListener('click', () => {
+                const menu = button.nextElementSibling;
+                menu.classList.toggle('hidden');
             });
-        </script>
+        });
+    });
+</script>
+
 
 
 </html>

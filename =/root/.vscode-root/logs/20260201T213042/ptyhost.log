@@ -1,0 +1,1 @@
+2026-02-01 21:31:17.895 [error] Failed to set sticky bit on /tmp/root-code-zsh: Error: ENOENT: no such file or directory, chmod '/tmp/root-code-zsh'

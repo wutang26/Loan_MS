@@ -1,0 +1,4 @@
+2026-02-01 21:30:48.250 [info] update#setState idle
+2026-02-01 21:31:02.771 [error] Blocked vscode-webview request vscode-webview://1k3s7fvf473dv3ouhgcoo4tbq7v7rhhd1h1mqf2o7hggpvsuerlj/index.html?id=d27456e1-eb13-4a0e-9c53-aa825c254d6a&parentId=1&origin=d27456e1-eb13-4a0e-9c53-aa825c254d6a&swVersion=4&extensionId=&platform=electron&vscode-resource-base-authority=vscode-resource.vscode-cdn.net&parentOrigin=vscode-file%3A%2F%2Fvscode-app&disableServiceWorker=true
+2026-02-01 21:31:18.352 [info] update#setState checking for updates
+2026-02-01 21:31:18.503 [info] update#setState idle

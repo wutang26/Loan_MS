@@ -232,6 +232,10 @@ Route::middleware(['auth', 'permission:view reports|apply loan|view loans'])->gr
     Route::put('/loans/{loan}/status', [LoanApprovalController::class, 'updateStatus'])
     ->name('loans.updateStatus');
 
+    Route::post('/repayments/{id}/pay', [LoanController::class, 'payInstallment'])
+    ->name('repayments.pay');
+
+
     });
 
 

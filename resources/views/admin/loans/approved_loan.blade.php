@@ -26,6 +26,7 @@
 
 </div>
 
+
     <!---Message to show success--->
     @if (session('success'))
         <div class="bg-green-100 text-green-800 p-2 rounded mb-4">
@@ -79,7 +80,7 @@
     <tbody>
         @forelse($loans as $loan)
         <tr>
-            <td class="border px-3 py-2">{{ $loan->id }}</td>
+            <td class="border px-3 py-2">{{ ++$i }}</td>
             <td class="border px-3 py-2">{{ $loan->user->name ?? 'N/A' }}</td>
             <td class="border px-3 py-2">{{ $loan->loan_amount }}</td>
             <td class="border px-3 py-2 capitalize">{{ $loan->application_status }}</td>

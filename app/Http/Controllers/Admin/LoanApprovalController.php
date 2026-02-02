@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Member;
  use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 
 class LoanApprovalController extends Controller
@@ -187,45 +188,110 @@ class LoanApprovalController extends Controller
                         }
 
 
-                        
-                //Loan Disbusement
-                public function disburseLoan(Loan $loan)
-                {
-                    $user = auth()->user();
-                    if (!$user->hasAnyRole(['super-admin', 'admin'])) {
-                        abort(403, 'Unauthorized');
-                    }
+            // Loan Disbursement
+          public function disburseLoan(Loan $loan)
+            {
+                $user = auth()->user();
 
-                    if ($loan->application_status !== 'approved') {
-                        return back()->with('error', 'Loan must be approved before disbursement.');
-                    }
+                if (!$user->hasAnyRole(['super-admin', 'admin'])) {
+                    abort(403, 'Unauthorized');
+                }
 
-                    // Disburse loan
+                if ($loan->application_status !== 'approved') {
+                    return back()->with('error', 'Loan must be approved before disbursement.');
+                }
+
+                // Prevent double disbursement
+                if ($loan->application_status === 'disbursed') {
+                    return back()->with('error', 'Loan already disbursed.');
+                }
+
+                DB::transaction(function () use ($loan) {
+
+                    //  Update loan status
                     $loan->update([
                         'application_status' => 'disbursed',
                         'disbursed_at' => now(),
                         'outstanding_loan' => $loan->total_repayment,
                     ]);
 
-                    // --- Create repayment schedule ---
-                    $months = $loan->loan_period_months ?? 1; // e.g., 7 months
-                    $monthlyAmount = round($loan->total_repayment / $months, 2);
+                    //  Create repayment schedule
+                    $months = $loan->loan_period_months ?? 1;
+                    $monthlyAmount = floor(($loan->total_repayment / $months) * 100) / 100;
+
+                    $remaining = $loan->total_repayment;
 
                     for ($i = 1; $i <= $months; $i++) {
-                        $dueDate = Carbon::now()->addMonths($i);
+
+                        // Fix rounding on last installment
+                        $amount = ($i == $months) ? $remaining : $monthlyAmount;
 
                         $loan->repayments()->create([
                             'installment_no' => $i,
-                            'due_date' => $dueDate,
-                            'amount' => $monthlyAmount,
+                            'due_date' => Carbon::now()->addMonths($i),
+                            'amount' => $amount,
                             'status' => 'pending',
                         ]);
+
+                        $remaining -= $amount;
                     }
-                    // --- End repayment schedule ---
+                });
 
-                    return back()->with('success', 'Loan disbursed and repayment schedule created.');
-                }
+                return back()->with('success', 'Loan disbursed and repayment schedule created.');
+            }
+  
+                    /**
+     * Show repayment schedule for a single loan
+     */
+            public function repayments($loanId){
+                    $user = auth()->user();
+
+                    $loan = Loan::with('repayments')->findOrFail($loanId);
+
+                    if (!$user->hasAnyRole(['super-admin', 'admin']) && $loan->user_id !== $user->id) {
+                        abort(403, 'Unauthorized');
+                    }
+
+            return view('loans.repayments', compact('loan'));
+        }
 
 
+        //Pay By Installment
+        public function payInstallment($repaymentId)
+            {
+            $user = auth()->user();
+
+            $repayment = LoanRepayment::with('loan')->findOrFail($repaymentId);
+            $loan = $repayment->loan;
+
+            // Security: user can only pay their own loan
+            if (! $user->hasAnyRole(['super-admin', 'admin']) && $loan->user_id !== $user->id) {
+                abort(403, 'Unauthorized');
+            }
+
+            // Only pending payments allowed
+            if ($repayment->status !== 'pending') {
+                return back()->with('error', 'This installment is already paid.');
+            }
+
+            // Mark installment paid
+            $repayment->update([
+                'status' => 'paid',
+                'paid_at' => now(),
+            ]);
+
+            // Update loan totals
+            $loan->increment('total_paid', $repayment->amount);
+            $loan->decrement('outstanding_loan', $repayment->amount);
+
+            // If fully paid → close loan
+            if ($loan->outstanding_loan <= 0) {
+                $loan->update([
+                    'application_status' => 'completed'
+                ]);
+            }
+
+            return back()->with('success', 'Installment paid successfully.');
+        }
 
 }

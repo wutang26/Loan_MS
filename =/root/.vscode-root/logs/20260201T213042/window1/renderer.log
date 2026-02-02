@@ -1,0 +1,12 @@
+2026-02-01 21:30:56.534 [warning] Creation of workbench contribution 'workbench.contrib.chatSetup' took 22ms.
+2026-02-01 21:30:56.646 [warning] Creation of workbench contribution 'workbench.contrib.configurationDefaultOverridesContribution' took 62ms.
+2026-02-01 21:30:59.330 [info] Started local extension host with pid 7262.
+2026-02-01 21:31:01.142 [info] MCP Registry configured: https://api.mcp.github.com
+2026-02-01 21:31:03.842 [info] Settings Sync: Account status changed from uninitialized to unavailable
+2026-02-01 21:31:08.679 [warning] [DefaultAccount] Attempt 1 to get sessions failed: Timed out waiting for authentication provider 'github' to register.
+2026-02-01 21:31:10.912 [info] [perf] Render performance baseline is 82ms
+2026-02-01 21:31:12.459 [error] [Extension Host] Extension `vscode.git` is already registered
+2026-02-01 21:31:12.468 [error] [Extension Host] Extension `vscode.terminal-suggest` is already registered
+2026-02-01 21:31:12.469 [error] [Extension Host] Extension `onecentlin.laravel-blade` is already registered
+2026-02-01 21:32:20.714 [error] An unknown error occurred. Please consult the log for more details.
+2026-02-01 21:32:47.054 [error] An unknown error occurred. Please consult the log for more details.
