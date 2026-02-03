@@ -10,3 +10,6 @@
 2026-02-01 21:31:12.469 [error] [Extension Host] Extension `onecentlin.laravel-blade` is already registered
 2026-02-01 21:32:20.714 [error] An unknown error occurred. Please consult the log for more details.
 2026-02-01 21:32:47.054 [error] An unknown error occurred. Please consult the log for more details.
+2026-02-01 22:26:22.354 [error] Failed to fetch MCP registry providers Server returned 404
+2026-02-01 22:26:22.422 [error] Failed to fetch MCP registry providers Server returned 404
+2026-02-02 00:43:05.157 [error] An unknown error occurred. Please consult the log for more details.

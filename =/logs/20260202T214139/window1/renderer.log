@@ -1,0 +1,9 @@
+2026-02-02 21:41:43.121 [warning] Creation of workbench contribution 'workbench.contrib.chatSetup' took 23ms.
+2026-02-02 21:41:44.823 [info] Started local extension host with pid 7854.
+2026-02-02 21:41:49.202 [info] MCP Registry configured: https://api.mcp.github.com
+2026-02-02 21:41:49.686 [info] Settings Sync: Account status changed from uninitialized to unavailable
+2026-02-02 21:41:51.547 [info] [perf] Render performance baseline is 83ms
+2026-02-02 21:43:38.563 [error] An unknown error occurred. Please consult the log for more details.
+2026-02-02 21:43:41.273 [error] An unknown error occurred. Please consult the log for more details.
+2026-02-02 22:21:51.751 [error] An unknown error occurred. Please consult the log for more details.
+2026-02-03 00:18:09.983 [error] An unknown error occurred. Please consult the log for more details.
