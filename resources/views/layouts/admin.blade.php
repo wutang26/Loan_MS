@@ -379,6 +379,8 @@
         </div>
     </div>
 
+    @include('layouts.footer')
+
 </body>
 {{-- 
         Handle the dropdown menus --}}
