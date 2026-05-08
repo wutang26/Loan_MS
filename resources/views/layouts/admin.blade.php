@@ -39,7 +39,13 @@
                 <a href="{{ route('admin.members.index') }}"
                     class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
                     <i class="bi bi-people"></i>
-                    Members
+                    Clients
+                </a>
+                
+                <a href="#"
+                    class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
+                    <i class="bi bi-bell"></i>
+                    Notifications
                 </a>
 
 
