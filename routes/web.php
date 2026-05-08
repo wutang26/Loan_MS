@@ -19,6 +19,7 @@ use App\Http\Controllers\UserPermissionController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\GroupLoanController;
 use App\Http\Controllers\GroupLoanRepayment;
+use App\Http\Controllers\NotificationController;
 
 
 
@@ -116,7 +117,19 @@ Route::middleware('auth')->group(function () {
 //Home page 
 Route::get('/home', [HomeController::class, 'home'])->name('layout');
 
+//Notifications
 
+Route::prefix('notifications')->group(function () {
+
+    Route::get('/', [NotificationController::class, 'index'])
+        ->name('notifications.index');
+
+    Route::post('/read/{id}', [NotificationController::class, 'markAsRead'])
+        ->name('notifications.read');
+
+    Route::delete('/delete/{id}', [NotificationController::class, 'destroy'])
+        ->name('notifications.delete');
+});
 
 //pricing Routes
 // Route::get('/dark', [AdminController::class, 'index'])->name('admin.index');

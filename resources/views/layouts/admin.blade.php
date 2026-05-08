@@ -42,10 +42,10 @@
                     Clients
                 </a>
                 
-                <a href="#"
+                <a href="{{route('notifications.index')}}"
                     class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
-                    <i class="bi bi-bell"></i>
-                    Notifications
+                    <i class="bi bi-bell-fill"></i>
+                   Loan Notifications
                 </a>
 
 
