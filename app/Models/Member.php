@@ -62,4 +62,9 @@ public function contributions()
     return $this->hasMany(Contribution::class);
 }
 
+//Penalties
+public function penalties()
+{
+    return $this->hasMany(Penalty::class);
+}
 }

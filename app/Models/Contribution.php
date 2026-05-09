@@ -29,4 +29,10 @@ public function member()
 {
     return $this->belongsTo(Member::class);
 }
+
+//Contribution
+public function penalties()
+{
+    return $this->hasMany(Penalty::class);
+}
 }

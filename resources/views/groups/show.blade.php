@@ -15,12 +15,33 @@
             </div>
 
             <div style="text-align:right;">
-                <div style="font-size:14px; color:#94a3b8;">Members</div>
                 <div style="font-size:22px; font-weight:bold;">
-                    {{ $group->users->count() }}
+                      <a href="{{ route('groups.available_members', $group->id) }}"
+                        style="
+                                /* background: linear-gradient(#5e0d0d); */
+                                color:red;
+                                padding:10px 16px;
+                                border-radius:10px;
+                                font-weight:600;
+                                text-decoration:none;
+                                display:inline-block;
+                        ">
+                          Available Members -  {{ $group->users->count() }}
+                        </a>
                 </div>
             </div>
-
+                 <a href="{{ route('groups.register_member', $group->id) }}"
+                        style="
+                                background: linear-gradient(180deg, #065f5b, #0f766e);
+                                color:white;
+                                padding:10px 16px;
+                                border-radius:10px;
+                                font-weight:600;
+                                text-decoration:none;
+                                display:inline-block;
+                        ">
+                            + Register Group Members
+                        </a>
         </div>
 
     </div>
@@ -38,15 +59,38 @@
                 <h4 style="margin:5px 0;">{{ $group->interest_rate ?? 'Michango' }}</h4>
             </div>
 
-            <div style="background:#f1f5f9; padding:15px; border-radius:12px;">
-                <small>Penalties / Fines</small>
-                <h4 style="margin:5px 0;">{{ $group->max_loan ?? 'Flexible' }}</h4>
-            </div>
+                    <a href="{{ route('penalties.show_penalties', $group->id) }}"
+            style="text-decoration:none; color:inherit;">
 
-            <div style="background:#f1f5f9; padding:15px; border-radius:12px;">
-                <small>Group Wallet</small>
-                <h4 style="margin:5px 0;">{{ $group->repayment_period ?? 'Balance' }}</h4>
-            </div>
+                <div style="
+                    background:#f1f5f9;
+                    padding:15px;
+                    border-radius:12px;
+                    transition:.3s;
+                    cursor:pointer;
+                "
+                onmouseover="this.style.background='#e2e8f0'"
+                onmouseout="this.style.background='#f1f5f9'">
+
+                    <small>Penalties / Fines</small>
+
+                    <h4 style="margin:5px 0; color:#dc2626;">
+                        {{ $group->penalty_amount ?? 'Flexible' }}
+                    </h4>
+
+                </div>
+
+            </a>
+<a href="{{ route('groups.wallet', $group->id) }}" style="text-decoration:none; color:inherit;">
+    <div style="background:#f1f5f9; padding:15px; border-radius:12px; transition:.3s; cursor:pointer;"
+         onmouseover="this.style.background='#e2e8f0'"
+         onmouseout="this.style.background='#f1f5f9'">
+        <small>Group Wallet</small>
+        <h4 style="margin:5px 0;">
+            TZS {{ number_format($balance, 2) ?? '0.00' }}
+        </h4>
+    </div>
+</a>
 
         </div>
 
@@ -69,18 +113,21 @@
             </p>
         </div>
 
-        <button style="
-            background:#2563eb;
-            color:white;
-            border:none;
-            padding:10px 18px;
-            border-radius:10px;
-            font-weight:600;
-            cursor:pointer;
-        ">
-            + Add Contribution
-        </button>
+    <button
+    style="
+        background:#2563eb;
+        color:white;
+        border:none;
+        padding:10px 18px;
+        border-radius:10px;
+        font-weight:600;
+        cursor:pointer;
+    "
+    onclick="window.location='{{ route('contributions.addContribution', $group->id) }}'">
 
+    + Add Contribution
+
+</button>
     </div>
 
     <!-- Table -->
@@ -146,7 +193,7 @@
 
                                 <div>
                                     <div style="font-weight:600; color:#1e293b;">
-                                        {{ $contribution->member->name ?? 'Unknown Member' }}
+                                        {{ $contribution->member->first_name ?? 'Unknown Member' }}
                                     </div>
 
                                     <div style="font-size:13px; color:#64748b;">

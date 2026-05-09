@@ -41,4 +41,20 @@ public function contributions()
 {
     return $this->hasMany(Contribution::class);
 }
+
+public function penalties()
+{
+    return $this->hasMany(Penalty::class);
+}
+
+ // One group has many wallet transactions
+    public function walletTransactions()
+    {
+        return $this->hasMany(WalletTransaction::class);
+    }
+ // Optional: total wallet balance
+    public function walletBalance()
+    {
+        return $this->walletTransactions()->sum('amount');
+    }
 }

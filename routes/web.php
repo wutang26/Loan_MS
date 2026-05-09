@@ -20,6 +20,8 @@ use App\Http\Controllers\GroupController;
 use App\Http\Controllers\GroupLoanController;
 use App\Http\Controllers\GroupLoanRepayment;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\WalletController;
+
 
 
 
@@ -163,6 +165,16 @@ Route::put('/admin/members/{id}', [AdminController::class, 'update'])->name('adm
 //Delete Member
 Route::delete('members/{id}/delete', [AdminController::class, 'deleteMember'])->name('admin.members.deleteMember');
 
+//Register Group Member
+Route::get('/groups/{group}/register-members', [GroupController::class, 'registerMembers'])
+    ->name('groups.register_member');
+
+Route::post('/groups/{group}/attach-members', [GroupController::class, 'attachMembers'])
+    ->name('groups.attach_member');
+
+    //Show members available in  group
+Route::get('/groups/{group}/members', [GroupController::class, 'showMembers'])
+    ->name('groups.available_members');
 
 
 //Regions
@@ -258,12 +270,68 @@ Route::get('/activeLoans', [LoanApprovalController::class, 'activeLoans'])
     ->name('loans.active_loans');
 });
 
+//Contributions
+Route::get('/groups/{group}/contributions/create',
+    [GroupController::class, 'addContribution'])
+    ->name('contributions.addContribution');
+
+Route::post('/groups/{group}/contributions',
+    [GroupController::class, 'storeContribution'])
+    ->name('contributions.store');
+
+    //Penalt Logic
+// SHOW PENALTIES PAGE
+Route::get(
+    '/groups/{group}/penalties',
+    [GroupController::class, 'showPenalties']
+)->name('penalties.show_penalties');
+
+
+// CREATE PENALTY FORM
+Route::get(
+    '/groups/{group}/penalties/create',
+    [GroupController::class, 'createPenalties']
+)->name('penalties.create_penalties');
+
+
+// STORE PENALTY
+Route::post(
+    '/groups/{group}/penalties/store',
+    [GroupController::class, 'storePenalties']
+)->name('penalties.store');
+
+
+
+// Show wallet balance and transactions
+Route::get('/groups/{group}/wallet', [WalletController::class, 'showWallet'])
+    ->name('wallets.show_wallet');
+
+// Show form to add a new wallet transaction
+Route::get('/groups/{group}/wallet/create', [WalletController::class, 'createTransaction'])
+    ->name('wallets.create_transaction');
+
+// Store new wallet transaction
+Route::post('/groups/{group}/wallet', [WalletController::class, 'storeTransaction'])
+    ->name('wallets.store_transaction');
+
 
 // List audit logs
 Route::prefix('admin')->middleware(['auth', 'role:super-admin'])->group(function () {
     Route::get('/audit-logs', [AuditLogController::class, 'index'])->name('admin.audit.index');
 });
 
+Route::put(
+    '/penalties/{penalty}/pay',
+    [GroupController::class, 'payPenalty']
+)->name('penalties.pay');
+
+
+//Wallet Transactions
+Route::prefix('groups/{group}')->group(function () {
+    Route::get('/wallet', [WalletController::class, 'showWallet'])->name('groups.wallet');
+    Route::post('/wallet/credit', [WalletController::class, 'credit'])->name('wallet.credit');
+    Route::post('/wallet/debit', [WalletController::class, 'debit'])->name('wallet.debit');
+});
 
 //Group Loans Routes
 Route::prefix('groups')->group(function () {
@@ -281,6 +349,7 @@ Route::prefix('group-loans')->group(function () {
 });
 
 Route::post('/repayments/store', [GroupRepaymentController::class, 'store'])->name('repayments.store');
+
 
 //Used for AuTH
 require __DIR__.'/auth.php';
