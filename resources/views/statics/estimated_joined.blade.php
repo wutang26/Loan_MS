@@ -348,43 +348,47 @@
 
                     <tbody>
 
-                        <tr>
-                            <td>Women Empowerment</td>
-                            <td>25,000 Tzs</td>
-                            <td>8</td>
-                            <td>
-                                <span class="status status-success">
-                                    Ongoing
-                                </span>
-                            </td>
-                            <td>12,500 Tzs</td>
-                        </tr>
+        @forelse($loans as $loan)
 
-                        <tr>
-                            <td>Unity Group</td>
-                            <td>15,000Tzs</td>
-                            <td>6</td>
-                            <td>
-                                <span class="status status-success">
-                                    Ongoing
-                                </span>
-                            </td>
-                            <td>7,200 Tzs</td>
-                        </tr>
+            <tr>
+                <td>{{ $loan->group->name ?? 'No Group' }}</td>
 
-                        <tr>
-                            <td>Trust Circle</td>
-                            <td>12,000 Tzs</td>
-                            <td>5</td>
-                            <td>
-                                <span class="status status-danger">
-                                    Overdue
-                                </span>
-                            </td>
-                            <td>8,300 Tzs</td>
-                        </tr>
+                <td>
+                    {{ number_format($loan->loan_amount, 2) }} Tzs
+                </td>
 
-                    </tbody>
+                <td>
+                    {{ $loan->group?->members?->name }}
+                </td>
+
+                <td>
+                    @if($loan->outstanding_loan > 0 && $loan->application_status == 'disbursed')
+                        <span class="status status-success">Ongoing</span>
+
+                    @elseif($loan->outstanding_loan <= 0)
+                        <span class="status status-success">Fully Paid</span>
+
+                    @else
+                        <span class="status status-danger">Overdue</span>
+                    @endif
+                </td>
+
+                <td>
+                    {{ number_format($loan->outstanding_loan, 2) }} Tzs
+                </td>
+            </tr>
+
+        @empty
+
+            <tr>
+                <td colspan="5" style="text-align:center; color:#999;">
+                    No loans found
+                </td>
+            </tr>
+
+        @endforelse
+
+    </tbody>
 
                 </table>
 

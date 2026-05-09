@@ -15,4 +15,10 @@ class GroupLoanMember extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+//Relation to Mmember 
+    public function member(){
+
+         return $this->hasMany(Member::class);
+    }
 }

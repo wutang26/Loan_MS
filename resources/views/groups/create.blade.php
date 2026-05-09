@@ -36,6 +36,18 @@
                     </div>
                 </div>
 
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>Monthly Contribution</label>
+                        <input type="text" name="monthly_contribution" placeholder="Short description">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>Penalty Amount</label>
+                        <input type="text" name="penalty_amount" placeholder="Short description">
+                    </div>
+                </div>
             </div>
 
             <!-- MEMBERS SECTION -->

@@ -9,7 +9,13 @@ class Group extends Model
 {
     use HasFactory;
 
-     protected $fillable = ['name', 'description'];
+     protected $fillable = [
+        
+     'name', 
+     'description',
+     'monthly_contribution',
+     'penalty_amount'
+     ];
 
     public function users()
     {
@@ -23,4 +29,16 @@ class Group extends Model
         return $this->hasMany(GroupLoan::class);
     }
 
+    //Relation
+
+public function members()
+{
+    return $this->hasMany(Member::class);
+}
+
+//contribution model
+public function contributions()
+{
+    return $this->hasMany(Contribution::class);
+}
 }

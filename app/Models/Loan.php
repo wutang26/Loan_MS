@@ -171,9 +171,9 @@ class Loan extends Model
     };
 }
 
-public function loan()
+public function group()
 {
-    return $this->belongsTo(Loan::class);
+    return $this->belongsTo(Group::class,'group_id');
 }
 
 

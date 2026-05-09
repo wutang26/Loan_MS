@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Group;
 use App\Models\User;
+use App\Models\Contribution;
 
 class GroupController extends Controller
 {
@@ -29,7 +30,11 @@ class GroupController extends Controller
 
     public function store(Request $request)
     {
-        $group = Group::create($request->only('name', 'description'));
+        $group = Group::create($request->only(
+            
+        'name', 'description','penalty_amount','monthly_contribution'
+        
+        ));
 
         if ($request->users) {
             foreach ($request->users as $userId => $share) {
@@ -48,7 +53,9 @@ class GroupController extends Controller
      */
    public function show(Group $group)
 {
-    return view('groups.show', compact('group'));
+    $contributions = Contribution::all();
+
+    return view('groups.show', compact('group', 'contributions'));
 }
 
     /**

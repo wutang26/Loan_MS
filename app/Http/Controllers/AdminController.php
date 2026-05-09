@@ -9,6 +9,9 @@ use App\Models\Region;
 use App\Models\Group;
 use App\Models\Loan;
 use Illuminate\Http\Request;
+use App\Models\GroupLoan;
+use App\Models\GroupLoanMember;
+
 use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
@@ -155,8 +158,10 @@ class AdminController extends Controller
         $groups = Group::all();
 
         //Loans active
-        $loans = Loan::where('application_status', 'disbursed')->get();
-        
+    $loans = Loan::with('group.members')
+    ->where('application_status', 'disbursed')
+    ->get();
+
         //Active Loans
         
        $active_loans = Loan::where('application_status', 'disbursed')->get();
@@ -195,7 +200,16 @@ class AdminController extends Controller
         })
         ->count();
    
-  return view('statics.estimated_joined', compact('groups','loans','active_loans','out_standing_loans','ongoing_loans','paid_loans','overdue_loans'
+    //Loop through Group Loan Table
+    $group_loans = GroupLoan::get();
+
+    //Member
+    $members = Member::get();
+
+  $loans = Loan::with('group.members')->get();
+
+  return view('statics.estimated_joined', compact('groups','loans','active_loans','out_standing_loans',
+  'ongoing_loans','paid_loans','overdue_loans','group_loans','members'
 ));
 
 }

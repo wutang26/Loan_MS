@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description')->nullable(); 
+            $table->string('monthly_contribution')->nullable(); 
+            $table->string('penalty_amount');
             $table->timestamps();
         });
     }

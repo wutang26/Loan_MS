@@ -38,6 +38,8 @@
                     <th>#</th>
                     <th>Group Name</th>
                     <th>Description</th>
+                     <th>Monthly Contribution</th>
+                    <th>Pelnaty Amount</th>
                     <th style="text-align:right;">Action</th>
                 </tr>
             </thead>
@@ -48,6 +50,8 @@
                     <td>{{ $index + 1 }}</td>
                     <td style="font-weight:500;">{{ $group->name }}</td>
                     <td style="color:#64748b;">{{ $group->description }}</td>
+                    <td style="font-weight:500;">{{ $group->monthly_contribution }}</td>
+                    <td style="color:#64748b;">{{ $group->penalty_amount }}</td>
 
                     <td style="text-align:right;">
                         <a href="{{ route('groups.show', $group->id) }}" class="btn" style="padding:6px 10px; font-size:12px;">

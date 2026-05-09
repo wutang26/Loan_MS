@@ -22,6 +22,7 @@ return new class extends Migration
             $table->foreignId('region_id')->constrained();
             $table->foreignId('district_id')->constrained();
             $table->string('date_joined');
+            $table->string('group_id')->constrained();
             $table->string('status');
             $table->timestamps();
         });

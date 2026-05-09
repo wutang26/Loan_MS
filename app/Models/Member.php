@@ -50,4 +50,16 @@ class Member extends Model
     {
         return $this->belongsTo(District::class);
     }
+
+    public function group()
+{
+    return $this->belongsTo(Group::class);
+}
+
+//
+public function contributions()
+{
+    return $this->hasMany(Contribution::class);
+}
+
 }
