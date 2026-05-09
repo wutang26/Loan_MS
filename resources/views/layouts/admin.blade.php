@@ -49,7 +49,7 @@
                 </a>
 
 
-                {{-- <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
+                {{-- <a href="{{route('loans.apply_loan')}}" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
                     <i class="bi bi-file-earmark-text"></i>
                     Loan Applications
                 </a> --}}
@@ -66,15 +66,15 @@
                     </button>
 
                     <div class="dropdown-menu hidden ml-8 mt-1 space-y-1 text-sm">
-                        @can('apply loan')
+                        <!-- @can('apply loan') -->
                             <a href="{{ route('loans.show_loans') }}"
                                 class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
                                 <i class="bi bi-eye"></i>
                                 Show Loans
                             </a>
-                        @endcan
+                        <!-- @endcan -->
 
-                        @can('apply loan')
+                        <!-- @can('apply loan') -->
                             @if (!auth()->user()->hasActiveLoan())
                                 <a href="{{ route('loans.apply_loan') }}"
                                     class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
@@ -82,7 +82,7 @@
                                     Apply Loan
                                 </a>
                             @endif
-                        @endcan
+                        <!-- @endcan -->
 
 
                         {{-- @can('manage pdf')
@@ -234,6 +234,13 @@
                                 </i> Disbursement Report </a>
                         @endcan
 
+                        @can('manage pdf')
+                            <a href="#"
+                                class="flex items-center gap-3 px-4 py-2 hover:bg-gray-700">
+                                <i class="bi bi-cash-stack"></i>
+                                Outstanding Loans Report
+                            </a>
+                        @endcan
                     </div>
                 </div>
 

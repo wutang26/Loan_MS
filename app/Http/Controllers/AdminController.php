@@ -6,6 +6,8 @@ use App\Models\District;
 use App\Models\User;
 use App\Models\Member;
 use App\Models\Region;
+use App\Models\Group;
+use App\Models\Loan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -144,4 +146,57 @@ class AdminController extends Controller
         ->with('success', 'Member deleted successfully');
     }
 
+
+    //Statics Dashboard And Estimations
+      
+    public function dashboard()
+    {
+        //Render All Groups
+        $groups = Group::all();
+
+        //Loans active
+        $loans = Loan::where('application_status', 'disbursed')->get();
+        
+        //Active Loans
+        
+       $active_loans = Loan::where('application_status', 'disbursed')->get();
+
+        //Outstanding Loans
+         if (auth()->user()->hasRole(['admin', 'super-admin'])) {
+
+        // Admin sees all loans with remaining balance
+        $out_standing_loans = Loan::where('outstanding_loan', '>', 0)
+                    ->with('user')
+                    ->get();
+
+    } else {
+
+        // Normal user sees only own outstanding loans
+        $out_standing_loans = Loan::where('user_id', auth()->id())
+                    ->where('outstanding_loan', '>', 0)
+                    ->with('user')
+                    ->get();
+    }
+
+    //Ongoing Loans
+    $ongoing_loans = Loan::where('application_status', 'disbursed')
+    ->where('outstanding_loan', '>', 0)
+    ->count();
+
+    //Paid Loans
+    $paid_loans = Loan::where('outstanding_loan', '<=', 0)
+        ->where('application_status', 'disbursed')
+        ->count();
+
+    //overdue loans
+    $overdue_loans = Loan::whereHas('repayments', function ($query) {
+            $query->where('status', 'pending')
+                ->where('due_date', '<', now());
+        })
+        ->count();
+   
+  return view('statics.estimated_joined', compact('groups','loans','active_loans','out_standing_loans','ongoing_loans','paid_loans','overdue_loans'
+));
+
+}
 }

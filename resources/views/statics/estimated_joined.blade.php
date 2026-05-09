@@ -255,11 +255,12 @@
             Group Loan Management
         </div>
 
-        <button class="create-btn">
+        <button  class="create-btn" onclick="window.location='{{ route('groups.index') }}'">
             + Create New Group
         </button>
     </div>
 
+ 
     <!-- ===== STATS ===== -->
     <div class="stats-grid">
 
@@ -270,7 +271,7 @@
 
             <div class="stat-content">
                 <p>Total Groups</p>
-                <h2>{{ $totalGroups ?? 32 }}</h2>
+                <h2>{{ $groups->count()}}</h2>
                 <span style="color:green;">+12% from last month</span>
             </div>
         </div>
@@ -282,7 +283,7 @@
 
             <div class="stat-content">
                 <p>Active Group Loans</p>
-                <h2>{{ $activeLoans ?? 18 }}</h2>
+                <h2>Tzs {{ $active_loans->count()}}</h2>
                 <span style="color:green;">+8% from last month</span>
             </div>
         </div>
@@ -294,7 +295,7 @@
 
             <div class="stat-content">
                 <p>Total Disbursed</p>
-                <h2>${{ number_format($disbursed ?? 245000) }}</h2>
+                <h2>Tzs {{ $loans->count()}}</h2>
                 <span style="color:green;">+15% from last month</span>
             </div>
         </div>
@@ -306,7 +307,7 @@
 
             <div class="stat-content">
                 <p>Total Outstanding</p>
-                <h2>${{ number_format($outstanding ?? 87500) }}</h2>
+                <h2>Tzs {{$out_standing_loans->count()}}</h2>
                 <span style="color:red;">-5% from last month</span>
             </div>
         </div>
@@ -349,38 +350,38 @@
 
                         <tr>
                             <td>Women Empowerment</td>
-                            <td>$25,000</td>
+                            <td>25,000 Tzs</td>
                             <td>8</td>
                             <td>
                                 <span class="status status-success">
                                     Ongoing
                                 </span>
                             </td>
-                            <td>$12,500</td>
+                            <td>12,500 Tzs</td>
                         </tr>
 
                         <tr>
                             <td>Unity Group</td>
-                            <td>$15,000</td>
+                            <td>15,000Tzs</td>
                             <td>6</td>
                             <td>
                                 <span class="status status-success">
                                     Ongoing
                                 </span>
                             </td>
-                            <td>$7,200</td>
+                            <td>7,200 Tzs</td>
                         </tr>
 
                         <tr>
                             <td>Trust Circle</td>
-                            <td>$12,000</td>
+                            <td>12,000 Tzs</td>
                             <td>5</td>
                             <td>
                                 <span class="status status-danger">
                                     Overdue
                                 </span>
                             </td>
-                            <td>$8,300</td>
+                            <td>8,300 Tzs</td>
                         </tr>
 
                     </tbody>
@@ -512,7 +513,7 @@ Highcharts.chart('loanChart', {
     yAxis: {
         min: 0,
         title: {
-            text: 'Amount ($)'
+            text: 'Amount (Tzs)'
         }
     },
 
@@ -581,20 +582,23 @@ Highcharts.chart('statusChart', {
     series: [{
         name: 'Loans',
         colorByPoint: true,
-        data: [
-            {
-                name: 'Fully Paid',
-                y: 25
-            },
-            {
-                name: 'Ongoing',
-                y: 56
-            },
-            {
-                name: 'Overdue',
-                y: 19
-            }
-        ]
+    data: [
+    {
+        name: 'Fully Paid',
+        y: {{ $paid_loans }},
+        color: '#22c55e'
+    },
+    {
+        name: 'Ongoing',
+        y: {{ $ongoing_loans }},
+        color: '#3b82f6'
+    },
+    {
+        name: 'Overdue',
+        y: {{ $overdue_loans }},
+        color: '#ef4444'
+    }
+]
     }]
 });
 </script>

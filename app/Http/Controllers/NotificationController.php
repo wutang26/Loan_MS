@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Notification;
+use App\Models\Loan;
 
 class NotificationController extends Controller
 {
     //
     public function index()
     {
-        $loans = Loam::all();
+        $loans = Loan::all();
 
         $notifications = Notification::latest()->paginate(10);
 
