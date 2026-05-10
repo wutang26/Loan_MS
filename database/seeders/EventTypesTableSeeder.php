@@ -10,17 +10,21 @@ class EventTypesTableSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('event_types')->insert([
-            [
-                'burrial_celemon' => 'Burial Ceremony',
-                'child_birth'     => 'Child Birth',
-                'wedding'         => 'Wedding',
-                'sickness'        => 'Sickness',
-                'accident'        => 'Accident',
-                'school_support'  => 'School Support',
-                'created_at'      => Carbon::now(),
-                'updated_at'      => Carbon::now(),
-            ]
-        ]);
+        $eventTypes = [
+            'Burial Ceremony',
+            'Child Birth',
+            'Wedding',
+            'Sickness',
+            'Accident',
+            'School Support'
+        ];
+
+        foreach ($eventTypes as $type) {
+            DB::table('event_types')->insert([
+                'name'       => $type,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+        }
     }
 }

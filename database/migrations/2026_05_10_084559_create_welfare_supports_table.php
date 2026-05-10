@@ -13,11 +13,15 @@ return new class extends Migration
     {
         Schema::create('welfare_supports', function (Blueprint $table) {
             $table->id();
-            $table->string('group_id')->constrained();
-            $table->string('event_type_id')->constrained();
-            $table->string('amount');
-            $table->string('description');
-            $table->string('approved_by');
+            $table->foreignId('group_id')->constrained()->onDelete('cascade'); // provider
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');  // recipient
+            $table->foreignId('event_type_id')->constrained()->onDelete('cascade'); // reason/type
+            $table->enum('mode', ['support', 'loan']); // type of assistance
+            $table->decimal('amount', 10, 2);
+            $table->text('description')->nullable();
+            $table->decimal('repayment_amount', 10, 2)->nullable(); // only for loans
+            $table->boolean('is_repaid')->default(false); // only for loans
+            $table->foreignId('approved_by')->nullable()->constrained('users');
             $table->timestamps();
         });
     }

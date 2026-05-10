@@ -11,16 +11,38 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('event_types', function (Blueprint $table) {
-            $table->id();
-            $table->string('burrial_celemon');
-            $table->string('child_birth');
-            $table->string('wedding');
-            $table->string('sickness');
-            $table->string('accident');
-            $table->string('school_support');
-            $table->timestamps();
-        });
+        // Create the event_types table if it does not exist
+        if (!Schema::hasTable('event_types')) {
+            Schema::create('event_types', function (Blueprint $table) {
+                $table->id();
+                $table->string('name'); // single column for event type
+                $table->timestamps();
+            });
+        } else {
+            // If table exists, modify it to have only the 'name' column
+            Schema::table('event_types', function (Blueprint $table) {
+                // Drop old columns if they exist
+                $oldColumns = [
+                    'burrial_celemon',
+                    'child_birth',
+                    'wedding',
+                    'sickness',
+                    'accident',
+                    'school_support'
+                ];
+
+                foreach ($oldColumns as $column) {
+                    if (Schema::hasColumn('event_types', $column)) {
+                        $table->dropColumn($column);
+                    }
+                }
+
+                // Add the new 'name' column if it does not exist
+                if (!Schema::hasColumn('event_types', 'name')) {
+                    $table->string('name');
+                }
+            });
+        }
     }
 
     /**

@@ -15,10 +15,35 @@
 
             <div style="text-align:right;">
                 <div style="font-size:22px; font-weight:bold;">
-                    <a href="{{ route('groups.available_members', $group->id) }}"
-                       style="color:red; padding:10px 16px; border-radius:10px; font-weight:600; text-decoration:none;">
-                        Available Members - {{ $group->users->count() }}
-                    </a>
+                   <!-- Available Members Link -->
+            <a href="{{ route('groups.available_members', $group->id) }}"
+               style="
+                    background: linear-gradient(135deg,#065f5b,#0f766e);
+                    color:white;
+                    padding:10px 16px;
+                    border-radius:12px;
+                    font-weight:600;
+                    text-decoration:none;
+                    display:flex;
+                    align-items:center;
+                    gap:8px;
+                    box-shadow:0 4px 12px rgba(0,0,0,0.15);
+                    transition: all 0.3s ease;
+               "
+               onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 18px rgba(0,0,0,0.2)';"
+               onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)';"
+            >
+                <span>Wajumbe Waliopo</span>
+                <span style="
+                    background:rgba(255,255,255,0.15);
+                    padding:4px 10px;
+                    border-radius:9999px;
+                    font-size:12px;
+                ">
+                    {{ $group->members->count() }}
+                </span>
+            </a>
+
                 </div>
             </div>
 

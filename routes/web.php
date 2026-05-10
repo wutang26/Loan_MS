@@ -21,6 +21,7 @@ use App\Http\Controllers\GroupLoanController;
 use App\Http\Controllers\GroupLoanRepayment;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\WalletController;
+use App\Http\Controllers\WelfareController;
 
 
 
@@ -353,6 +354,19 @@ Route::prefix('group-loans')->group(function () {
 
 Route::post('/repayments/store', [GroupRepaymentController::class, 'store'])->name('repayments.store');
 
+
+// Route to show the list of welfare supports
+Route::get('/welfare_supports', [WelfareController::class, 'index'])->name('welfareSupports.index');
+
+// Route to show the form to create a new welfare support
+Route::get('/welfare_supports/create', [WelfareController::class, 'create'])->name('welfareSupports.create');
+
+// Route to handle storing the new welfare support
+Route::post('/welfare_supports', [WelfareController::class, 'store'])->name('welfareSupports.store');
+
+Route::get('/welfare_supports/{welfareSupport}/edit', [WelfareController::class, 'edit'])->name('welfareSupports.edit');
+Route::put('/welfare_supports/{welfareSupport}/update', [WelfareController::class, 'update'])->name('welfareSupports.update');
+Route::delete('/welfare_supports/{welfareSupport}/delete', [WelfareController::class, 'destroy'])->name('welfareSupports.destroy');
 
 //Used for AuTH
 require __DIR__.'/auth.php';

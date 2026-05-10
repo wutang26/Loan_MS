@@ -227,9 +227,10 @@ input:focus, select:focus, textarea:focus {
 
 <!-- ===== SIDEBAR ===== -->
 <div class="sidebar">
-    <h2>Loan Admin</h2>
+    <h2>Group Loans</h2>
 
     <a href="/groups"><i class="fas fa-users"></i> Groups</a>
+    <a href="{{route('welfareSupports.index')}}"> <i class="fas fa-handshake"></i> Welfare Support</a>
     <a href="/group-loans/create"><i class="fas fa-hand-holding-dollar"></i> Issue Loan</a>
     <a href="#"><i class="fas fa-credit-card"></i> Repayments</a>
     <a href="#"><i class="fas fa-chart-line"></i> Reports</a>
