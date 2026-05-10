@@ -5,46 +5,70 @@
 <div class="row" style="gap:20px;">
 
     <!-- 🔵 GROUP HEADER CARD -->
-    <div class="card col-12" style="padding:25px; border-radius:16px; background:linear-gradient(135deg,#0f172a,#1e293b); color:white;">
+  <!-- 🔵 GROUP HEADER CARD -->
+<div class="card col-12" style="padding:25px; border-radius:16px; background:linear-gradient(135deg,#0f172a,#1e293b); color:white;">
+    
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
         
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-            
-            <div>
-                <h2 style="margin:0; font-size:26px;">{{ $group->name }}</h2>
-                <p style="margin-top:5px; color:#cbd5e1;">{{ $group->description }}</p>
-            </div>
-
-            <div style="text-align:right;">
-                <div style="font-size:22px; font-weight:bold;">
-                      <a href="{{ route('groups.available_members', $group->id) }}"
-                        style="
-                                /* background: linear-gradient(#5e0d0d); */
-                                color:red;
-                                padding:10px 16px;
-                                border-radius:10px;
-                                font-weight:600;
-                                text-decoration:none;
-                                display:inline-block;
-                        ">
-                          Available Members -  {{ $group->users->count() }}
-                        </a>
-                </div>
-            </div>
-                 <a href="{{ route('groups.register_member', $group->id) }}"
-                        style="
-                                background: linear-gradient(180deg, #065f5b, #0f766e);
-                                color:white;
-                                padding:10px 16px;
-                                border-radius:10px;
-                                font-weight:600;
-                                text-decoration:none;
-                                display:inline-block;
-                        ">
-                            + Register Group Members
-                        </a>
+        <div>
+            <h2 style="margin:0; font-size:26px;">{{ $group->name }}</h2>
+            <p style="margin-top:5px; color:#cbd5e1;">{{ $group->description }}</p>
         </div>
 
+        <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+
+            <!-- Available Members Link -->
+            <a href="{{ route('groups.available_members', $group->id) }}"
+               style="
+                    background: linear-gradient(135deg,#065f5b,#0f766e);
+                    color:white;
+                    padding:10px 16px;
+                    border-radius:12px;
+                    font-weight:600;
+                    text-decoration:none;
+                    display:flex;
+                    align-items:center;
+                    gap:8px;
+                    box-shadow:0 4px 12px rgba(0,0,0,0.15);
+                    transition: all 0.3s ease;
+               "
+               onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 18px rgba(0,0,0,0.2)';"
+               onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)';"
+            >
+                <span>Available Members</span>
+                <span style="
+                    background:rgba(255,255,255,0.15);
+                    padding:4px 10px;
+                    border-radius:9999px;
+                    font-size:12px;
+                ">
+                    {{ $group->users->count() }}
+                </span>
+            </a>
+
+            <!-- Register Members Button -->
+            <a href="{{ route('groups.register_member', $group->id) }}"
+               style="
+                    background: linear-gradient(180deg, #065f5b, #0f766e);
+                    color:white;
+                    padding:10px 16px;
+                    border-radius:12px;
+                    font-weight:600;
+                    text-decoration:none;
+                    display:inline-block;
+                    box-shadow:0 4px 12px rgba(0,0,0,0.15);
+                    transition: all 0.3s ease;
+               "
+               onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 18px rgba(0,0,0,0.2)';"
+               onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)';"
+            >
+                + Register Group Members
+            </a>
+
+        </div>
     </div>
+
+</div>
 
 
     <!-- 🟢 LOAN RULES CARD -->
@@ -55,8 +79,10 @@
         <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:15px;">
 
             <div style="background:#f1f5f9; padding:15px; border-radius:12px;">
-                <small>Contributions</small>
-                <h4 style="margin:5px 0;">{{ $group->interest_rate ?? 'Michango' }}</h4>
+                <small>Total Contributions</small>
+                <h4 style="margin:5px 0; color:#16a34a;">
+                    TZS {{ number_format($totalContributions, 2) }}
+                </h4>
             </div>
 
                     <a href="{{ route('penalties.show_penalties', $group->id) }}"

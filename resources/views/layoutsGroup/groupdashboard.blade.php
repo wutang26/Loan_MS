@@ -21,14 +21,14 @@
 
 /* ===== ROOT FIX ===== */
 html, body {
-    height: 100%;              /* 🔥 important */
+    height: 100%;              /*  important */
 }
 
 body {
     font-family: 'Poppins', sans-serif;
     background: #f1f5f9;
 
-    display: flex;             /* 🔥 important */
+    display: flex;             /*  important */
 }
 
 /* ===== SIDEBAR ===== */
@@ -71,10 +71,10 @@ body {
 /* ===== MAIN ===== */
 .main {
      margin-left: 250px;
-    flex: 1;                   /* 🔥 fill remaining space */
+    flex: 1;                   /*  fill remaining space */
     display: flex;
     flex-direction: column;
-    min-height: 100vh;         /* 🔥 ensures full screen */
+    min-height: 100vh;         /* ensures full screen */
 }
 
 /* ===== NAVBAR ===== */
@@ -101,7 +101,7 @@ body {
 /* ===== CONTENT ===== */
 .content {
     padding: 30px;
-    flex: 1;                   /* 🔥 pushes footer down */
+    flex: 1;                   /*  pushes footer down */
 }
 
 /* ===== GRID SYSTEM ===== */

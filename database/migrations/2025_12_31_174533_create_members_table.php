@@ -21,7 +21,8 @@ return new class extends Migration
             $table->string('address');
             $table->foreignId('region_id')->constrained();
             $table->foreignId('district_id')->constrained();
-            $table->string('date_joined');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // NEW: required
+            $table->date('date_joined'); // make it date instead of string
             $table->string('group_id')->constrained();
             $table->string('status');
             $table->timestamps();

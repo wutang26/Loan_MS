@@ -16,9 +16,17 @@ class GroupController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $groups = Group::latest()->get();
+        $query = Group::query();
+
+    if ($request->filled('search')) {
+        $search = $request->search;
+        $query->where('name', 'like', "%{$search}%")
+              ->orWhere('description', 'like', "%{$search}%");
+    }
+
+    $groups = $query->latest()->get();
 
         return view('groups.index', compact('groups'));
     }
@@ -59,8 +67,9 @@ class GroupController extends Controller
 {
     $contributions = Contribution::all();
 
-     // Calculate balance
-    $totalContributions = $contributions->where('status', 'paid')->sum('amount');
+     
+    // Calculate total paid contributions
+   $totalContributions = $contributions->where('status', 'paid')->sum('amount');
 
     $totalTransactions = WalletTransaction::where('group_id', $group->id)
                             ->where('type', 'debit')
@@ -70,7 +79,7 @@ class GroupController extends Controller
 
     $wallets = WalletTransaction::all();
 
-    return view('groups.show', compact('group', 'contributions', 'balance','wallets'));
+    return view('groups.show', compact('group', 'contributions', 'balance','wallets','totalContributions'));
 
     
 }
@@ -171,15 +180,20 @@ public function showMembers(Group $group)
 
 
 //Handle Penalties logic
-  public function createPenalties(Group $group)
-    {
-        $members = $group->members;
 
-        return view('penalties.create_penalties', compact(
-            'group',
-            'members'
-        ));
-    }
+public function createPenalties(Group $group)
+{
+
+    $members = $group->members;
+
+    $user = Auth::user();
+
+    
+
+    $user = Auth::user(); // logged in user
+
+    return view('penalties.create_penalties', compact('group', 'members','user'));
+}
 
 
   public function storePenalties(Request $request, Group $group)
@@ -272,24 +286,43 @@ public function showWallet(Group $group)
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
-    }
+   // Show edit form
+public function edit($id)
+{
+    $group = Group::findOrFail($id);
+    return view('groups.edit', compact('group'));
+}
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+// Handle update
+public function update(Request $request, $id)
+{
+    $group = Group::findOrFail($id);
+
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'monthly_contribution' => 'required|numeric|min:0',
+        'penalty_amount' => 'required|numeric|min:0',
+    ]);
+
+    $group->update($request->only('name', 'description', 'monthly_contribution', 'penalty_amount'));
+
+    return redirect()->route('groups.index')->with('success', 'Group updated successfully.');
+}
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
-    }
+   public function destroy($id)
+{
+    $group = Group::findOrFail($id);
+
+    // Optional: detach members first if needed
+    // $group->users()->detach();
+    // $group->members()->update(['group_id' => null]);
+
+    $group->delete();
+
+    return redirect()->route('groups.index')->with('success', 'Group deleted successfully.');
+}
 }

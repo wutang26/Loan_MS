@@ -2,11 +2,7 @@
 
 @section('content')
 
-<div style="
-    max-width:800px;
-    margin:auto;
-    padding:30px;
-">
+<div style="max-width:800px; margin:auto; padding:30px;">
 
     <div style="
         background:white;
@@ -17,7 +13,7 @@
 
         <!-- HEADER -->
         <div style="
-            background:linear-gradient(135deg,#b91c1c,#dc2626);
+            background:linear-gradient(135deg,#065f5b,#0f766e); /* Sidebar color theme */
             padding:35px;
             color:white;
         ">
@@ -34,7 +30,7 @@
                 margin-top:8px;
                 opacity:.9;
             ">
-                Manage group fines and penalty records
+                Manage penalties and fines for <strong>{{ $group->name }}</strong>
             </p>
 
         </div>
@@ -42,156 +38,114 @@
         <!-- BODY -->
         <div style="padding:35px;">
 
-            <form method="POST"
-                action="{{ route('penalties.store', $group->id) }}">
+            <!-- Success Message -->
+            @if(session('success'))
+                <div style="
+                    background:#dcfce7; /* subtle green alert */
+                    color:#166534;
+                    padding:14px 18px;
+                    border-radius:12px;
+                    margin-bottom:25px;
+                    font-weight:500;
+                ">
+                    {{ session('success') }}
+                </div>
+            @endif
 
+            <!-- Error Message -->
+            @if(session('error'))
+                <div style="
+                    background:#fde68a; /* subtle yellow alert */
+                    color:#78350f;
+                    padding:14px 18px;
+                    border-radius:12px;
+                    margin-bottom:25px;
+                    font-weight:500;
+                ">
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            <form method="POST" action="{{ route('penalties.store', $group->id) }}">
                 @csrf
 
                 <!-- MEMBER -->
-                <div style="margin-bottom:20px;">
-
-                    <label style="
-                        display:block;
-                        margin-bottom:8px;
-                        font-weight:600;
+                <div class="form-group" style="margin-bottom:20px;">
+                    <label style="font-weight:600;">Member</label>
+                    <select name="member_id" class="form-control-custom" required style="
+                        width:100%;
+                        padding:14px;
+                        border-radius:12px;
+                        border:1px solid #dbe2ea;
+                        background:#f8fafc;
                     ">
-                        Select Member
-                    </label>
-
-                    <select name="member_id"
-                        required
-                        style="
-                            width:100%;
-                            padding:14px;
-                            border-radius:14px;
-                            border:1px solid #dbe2ea;
-                            background:#f8fafc;
-                        ">
-
-                        <option value="">
-                            -- Select Member --
-                        </option>
-
-                        @foreach($members as $member)
-
+                        <option value="">-- Select Member --</option>
+                        @forelse($members as $member)
                             <option value="{{ $member->id }}">
-                                {{ $member->first_name }}
-                                {{ $member->last_name }}
+                                {{ $member->first_name }} {{ $member->last_name }}
                             </option>
-
-                        @endforeach
-
+                        @empty
+                            <option value="" disabled>No members available</option>
+                        @endforelse
                     </select>
-
                 </div>
 
                 <!-- AMOUNT -->
                 <div style="margin-bottom:20px;">
-
-                    <label style="
-                        display:block;
-                        margin-bottom:8px;
-                        font-weight:600;
+                    <label style="display:block; margin-bottom:8px; font-weight:600;">Penalty Amount</label>
+                    <input type="number" name="amount" required placeholder="Enter amount" style="
+                        width:100%;
+                        padding:14px;
+                        border-radius:12px;
+                        border:1px solid #dbe2ea;
+                        background:#f8fafc;
                     ">
-                        Penalty Amount
-                    </label>
-
-                    <input type="number"
-                        name="amount"
-                        required
-                        placeholder="Enter amount"
-                        style="
-                            width:100%;
-                            padding:14px;
-                            border-radius:14px;
-                            border:1px solid #dbe2ea;
-                            background:#f8fafc;
-                        ">
-
                 </div>
 
                 <!-- REASON -->
                 <div style="margin-bottom:20px;">
-
-                    <label style="
-                        display:block;
-                        margin-bottom:8px;
-                        font-weight:600;
-                    ">
-                        Reason
-                    </label>
-
-                    <textarea
-                        name="reason"
-                        required
-                        rows="4"
-                        placeholder="Why is this penalty issued?"
-                        style="
-                            width:100%;
-                            padding:14px;
-                            border-radius:14px;
-                            border:1px solid #dbe2ea;
-                            background:#f8fafc;
-                        "></textarea>
-
+                    <label style="display:block; margin-bottom:8px; font-weight:600;">Reason</label>
+                    <textarea name="reason" required rows="4" placeholder="Why is this penalty issued?" style="
+                        width:100%;
+                        padding:14px;
+                        border-radius:12px;
+                        border:1px solid #dbe2ea;
+                        background:#f8fafc;
+                    "></textarea>
                 </div>
 
                 <!-- STATUS -->
                 <div style="margin-bottom:25px;">
-
-                    <label style="
-                        display:block;
-                        margin-bottom:8px;
-                        font-weight:600;
+                    <label style="display:block; margin-bottom:8px; font-weight:600;">Status</label>
+                    <select name="status" style="
+                        width:100%;
+                        padding:14px;
+                        border-radius:12px;
+                        border:1px solid #dbe2ea;
+                        background:#f8fafc;
                     ">
-                        Status
-                    </label>
-
-                    <select name="status"
-                        style="
-                            width:100%;
-                            padding:14px;
-                            border-radius:14px;
-                            border:1px solid #dbe2ea;
-                            background:#f8fafc;
-                        ">
-
-                        <option value="pending">
-                            Pending
-                        </option>
-
-                        <option value="paid">
-                            Paid
-                        </option>
-
-                        <option value="waived">
-                            Waived
-                        </option>
-
+                        <option value="pending">Pending</option>
+                        <option value="paid">Paid</option>
+                        <option value="waived">Waived</option>
                     </select>
-
                 </div>
 
                 <!-- BUTTON -->
                 <div style="text-align:center;">
-
-                    <button type="submit"
-                        style="
-                            background:linear-gradient(135deg,#dc2626,#b91c1c);
-                            color:white;
-                            border:none;
-                            padding:14px 28px;
-                            border-radius:14px;
-                            font-weight:600;
-                            cursor:pointer;
-                            font-size:15px;
-                            box-shadow:0 8px 20px rgba(5, 109, 109, 0.25);
-                        ">
-
+                    <button type="submit" style="
+                        background:linear-gradient(135deg,#065f5b,#0f766e); /* sidebar color */
+                        color:white;
+                        border:none;
+                        padding:14px 28px;
+                        border-radius:12px;
+                        font-weight:600;
+                        cursor:pointer;
+                        font-size:15px;
+                        box-shadow:0 8px 20px rgba(0,0,0,.15);
+                        transition:transform .2s;
+                    " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
                         Save Penalty
-
                     </button>
-
                 </div>
 
             </form>

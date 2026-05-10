@@ -338,6 +338,9 @@ Route::prefix('groups')->group(function () {
     Route::get('/', [GroupController::class, 'index'])->name('groups.index');
     Route::get('/create', [GroupController::class, 'create'])->name('groups.create');
     Route::post('/store', [GroupController::class, 'store'])->name('groups.store');
+    Route::delete('/groups/{id}', [GroupController::class, 'destroy'])->name('groups.destroy');
+    Route::get('/groups/{id}/edit', [GroupController::class, 'edit'])->name('groups.edit');
+    Route::put('/groups/{id}', [GroupController::class, 'update'])->name('groups.update');
     // Show single group (IMPORTANT for "View" button)
     Route::get('/groups/{group}', [GroupController::class, 'show'])->name('groups.show');
 
