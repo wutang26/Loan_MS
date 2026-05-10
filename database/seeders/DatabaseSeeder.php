@@ -21,6 +21,11 @@ class DatabaseSeeder extends Seeder
             SuperAdminSeeder::class,
         ]);
 
+
+        //Event types Seeder
+        $this->call(EventTypesTableSeeder::class);
+
+        
 //     User::factory()->create([
 //     'name' => 'Super Admin',
 //     'email' => 'superadmin@outlook.com',

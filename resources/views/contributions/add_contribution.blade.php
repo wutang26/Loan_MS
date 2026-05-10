@@ -184,7 +184,7 @@
                 <i class="bi bi-cash-stack"></i>
             </div>
             <div class="card-header-text">
-                <h2>Add Contribution</h2>
+                <h2>Weka Akiba </h2>
                 <p>Manage monthly member contributions for <strong>{{ $group->name }}</strong></p>
             </div>
         </div>

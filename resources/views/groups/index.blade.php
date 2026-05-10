@@ -13,7 +13,7 @@
 
         <div style="display:flex; gap:10px;">
             <a href="{{ route('groups.create') }}" style="text-decoration:none" class="btn">
-                <i class="fas fa-plus"></i> Create Group
+                <i class="fas fa-plus"></i> Tengeneza Kikundi
             </a>
 
             <a href="{{ route('admin.members.index') }}" class="btn" style="background:#334155; text-decoration:none">
@@ -60,10 +60,10 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Group Name</th>
-                    <th>Description</th>
-                     <th>Monthly Contribution</th>
-                    <th>Pelnaty Amount</th>
+                    <th>Jina La Kikundi</th>
+                    <th>Kinajihusisha Na</th>
+                     <th>Mchango Kwa Mwezi</th>
+                    <th>Kiasi cha Adhabu</th>
                     <th style="text-align:right;">Action</th>
                 </tr>
             </thead>

@@ -65,16 +65,18 @@ class GroupController extends Controller
      */
    public function show(Group $group)
 {
-    $contributions = Contribution::all();
+    // Only contributions for THIS group
+    $contributions = Contribution::where('group_id', $group->id)->get();
 
-     
-    // Calculate total paid contributions
-   $totalContributions = $contributions->where('status', 'paid')->sum('amount');
+    // Total paid contributions
+    $totalContributions = $contributions->where('status', 'paid')->sum('amount');
 
+    // Total expenses/transactions (outflow)
     $totalTransactions = WalletTransaction::where('group_id', $group->id)
-                            ->where('type', 'debit')
-                            ->sum('amount');
+                        ->where('type', 'debit')
+                        ->sum('amount');
 
+    // Available balance
     $balance = $totalContributions - $totalTransactions;
 
     $wallets = WalletTransaction::all();

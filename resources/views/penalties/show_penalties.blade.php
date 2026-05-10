@@ -52,7 +52,7 @@
                 transition:.3s;
            ">
 
-            + Add New Penalty
+            + Lipa Kiwango (Fine)
 
         </a>
 

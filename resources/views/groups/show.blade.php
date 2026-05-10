@@ -35,14 +35,14 @@
                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 18px rgba(0,0,0,0.2)';"
                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)';"
             >
-                <span>Available Members</span>
+                <span>Wajumbe Waliopo</span>
                 <span style="
                     background:rgba(255,255,255,0.15);
                     padding:4px 10px;
                     border-radius:9999px;
                     font-size:12px;
                 ">
-                    {{ $group->users->count() }}
+                    {{ $group->members->count() }}
                 </span>
             </a>
 
@@ -62,7 +62,7 @@
                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 18px rgba(0,0,0,0.2)';"
                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)';"
             >
-                + Register Group Members
+                + Sajili Mjumbe
             </a>
 
         </div>
@@ -79,7 +79,7 @@
         <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:15px;">
 
             <div style="background:#f1f5f9; padding:15px; border-radius:12px;">
-                <small>Total Contributions</small>
+                <small>Jumla Ya Michango</small>
                 <h4 style="margin:5px 0; color:#16a34a;">
                     TZS {{ number_format($totalContributions, 2) }}
                 </h4>
@@ -98,25 +98,25 @@
                 onmouseover="this.style.background='#e2e8f0'"
                 onmouseout="this.style.background='#f1f5f9'">
 
-                    <small>Penalties / Fines</small>
+                    <small>Kiasi Cha Adhabu(Fines)</small>
 
                     <h4 style="margin:5px 0; color:#dc2626;">
-                        {{ $group->penalty_amount ?? 'Flexible' }}
+                        Tzs {{ $group->penalty_amount ?? 'Flexible' }}
                     </h4>
 
                 </div>
 
             </a>
-<a href="{{ route('groups.wallet', $group->id) }}" style="text-decoration:none; color:inherit;">
-    <div style="background:#f1f5f9; padding:15px; border-radius:12px; transition:.3s; cursor:pointer;"
-         onmouseover="this.style.background='#e2e8f0'"
-         onmouseout="this.style.background='#f1f5f9'">
-        <small>Group Wallet</small>
-        <h4 style="margin:5px 0;">
-            TZS {{ number_format($balance, 2) ?? '0.00' }}
-        </h4>
-    </div>
-</a>
+            <a href="{{ route('groups.wallet', $group->id) }}" style="text-decoration:none; color:inherit;">
+                <div style="background:#f1f5f9; padding:15px; border-radius:12px; transition:.3s; cursor:pointer;"
+                    onmouseover="this.style.background='#e2e8f0'"
+                    onmouseout="this.style.background='#f1f5f9'">
+                    <small>Akiba Ya Kundi</small>
+                    <h4 style="margin:5px 0;">
+                        TZS {{ number_format($balance, 2) ?? '0.00' }}
+                    </h4>
+                </div>
+            </a>
 
         </div>
 
@@ -131,7 +131,7 @@
         
         <div>
             <h3 style="margin:0; font-size:22px; color:#1e293b;">
-                💰 Monthly Contributions
+                💰 Michango Kwa Mwezi
             </h3>
 
             <p style="margin:5px 0 0; color:#64748b; font-size:14px;">
@@ -151,7 +151,7 @@
     "
     onclick="window.location='{{ route('contributions.addContribution', $group->id) }}'">
 
-    + Add Contribution
+    + Weka Akiba(Kikundi)
 
 </button>
     </div>
